@@ -48,5 +48,5 @@
     "eslint-plugin-react": "^7.28.0",
     "prettier": "^2.5.1"
   },
-  "homepage": "https://zharovskyi.github.io/newfire-react/"
+  "homepage": "https://zharovskyi.github.io/newfire-react/build"
 }
