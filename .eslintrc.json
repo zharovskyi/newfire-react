@@ -14,9 +14,9 @@
   ],
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true
+      "experimentalObjectRestSpread": true
     },
-    "ecmaVersion": "latest",
+    "ecmaVersion": 6,
     "sourceType": "module"
   },
   "plugins": ["react", "import","prettier", "jsx-a11y"],
