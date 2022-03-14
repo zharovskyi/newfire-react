@@ -1,6 +1,6 @@
 import ThemeConfig from "./theme";
-import "./App.scss";
 import TablePage from "./components/TablePage";
+import "./App.scss";
 
 function App() {
   return (

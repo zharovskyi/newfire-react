@@ -12,12 +12,17 @@
     "plugin:jsx-a11y/recommended",
     "prettier"
   ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
     },
     "ecmaVersion": 6,
-    "sourceType": "module"
+    "sourceType": "module",
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    }
   },
   "plugins": ["react", "import", "prettier", "jsx-a11y"],
   "rules": {

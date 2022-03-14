@@ -1,28 +1,21 @@
 import Header from "../../shared/Header/Header";
-import Table from "./Table";
+import Table from "../../shared/Table/Table";
+import { headCells, rows } from "./data";
+import Button from "@mui/material/Button";
+import styles from "./index.module.scss";
 
-function TablePage() {
+const TablePage = () => {
   return (
     <>
       <Header />
-      <div
-        className="App"
-        style={{
-          height: 300,
-          // minWidth: 320,
-          maxWidth: "70%",
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          margin: "auto",
-        }}
-      >
-        <Table />
+      <div className={styles.app}>
+        <div className={styles.btn}>
+          <Button variant="contained">Додати рецепт</Button>
+        </div>
+        <Table headCells={headCells} rows={rows} />
       </div>
     </>
   );
-}
+};
 
 export default TablePage;

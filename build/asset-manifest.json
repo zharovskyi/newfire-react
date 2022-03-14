@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/newfire-react/build/static/css/main.8f3705fd.css",
-    "main.js": "/newfire-react/build/static/js/main.6b7c33e6.js",
+    "main.css": "/newfire-react/build/static/css/main.21c00340.css",
+    "main.js": "/newfire-react/build/static/js/main.b8117560.js",
     "static/media/amstel-beer-1.svg": "/newfire-react/build/static/media/amstel-beer-1.6abc1602746bb9a0390325ffa713f906.svg",
     "index.html": "/newfire-react/build/index.html",
-    "main.8f3705fd.css.map": "/newfire-react/build/static/css/main.8f3705fd.css.map",
-    "main.6b7c33e6.js.map": "/newfire-react/build/static/js/main.6b7c33e6.js.map"
+    "main.21c00340.css.map": "/newfire-react/build/static/css/main.21c00340.css.map",
+    "main.b8117560.js.map": "/newfire-react/build/static/js/main.b8117560.js.map"
   },
   "entrypoints": [
-    "static/css/main.8f3705fd.css",
-    "static/js/main.6b7c33e6.js"
+    "static/css/main.21c00340.css",
+    "static/js/main.b8117560.js"
   ]
 }
