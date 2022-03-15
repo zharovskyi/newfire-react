@@ -26,11 +26,11 @@ export default function EnhancedTableHead({ order, orderBy, onRequestSort,headCe
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
+              {orderBy === headCell.id && (
                 <Box component="span" sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
-              ) : null}
+              ) }
             </TableSortLabel>
           </TableCell>
         ))}

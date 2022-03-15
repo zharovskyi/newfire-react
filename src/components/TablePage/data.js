@@ -29,31 +29,26 @@ export const headCells = [
   {
     id: "name",
     numeric: false,
-    disablePadding: true,
     label: "Назва рецепту",
   },
   {
     id: "type",
     numeric: true,
-    disablePadding: false,
     label: "Тип пива",
   },
   {
     id: "alcohol",
     numeric: true,
-    disablePadding: false,
     label: "Вміст алкоголю",
   },
   {
     id: "bittenesrs ",
     numeric: true,
-    disablePadding: false,
     label: "Гіркота",
   },
   {
     id: "capacity",
     numeric: true,
-    disablePadding: false,
     label: "Вихідний об'єм",
   },
 ];

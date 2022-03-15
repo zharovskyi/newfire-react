@@ -1,7 +1,10 @@
 .app {
   height: 300px;
   min-height: 300px;
-  max-width: 70%;
+  width: 100%;
+  max-width: 1200px;
+  padding-left: 24px;
+  padding-right: 24px;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -9,7 +12,14 @@
   right: 0;
   margin: auto;
 }
-.btn {
+.btnContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 40px;
+}
+.btn {
   text-align: right;
+  font-size: 1rem;
+  padding: 16.5px 14px;
 }
