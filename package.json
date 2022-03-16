@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/eslint-parser": "^7.17.0",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
+    "@iconify/react": "^3.1.4",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.5.0",
     "@mui/material": "latest",
     "@mui/styled-engine-sc": "^5.4.2",
     "@mui/x-data-grid": "^5.0.0-beta.4",
@@ -45,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.16.7",
     "beautiful": "^0.0.1",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.4.0",
