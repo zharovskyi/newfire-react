@@ -1,4 +1,3 @@
-import Header from "../../shared/Header/Header";
 import Table from "../../shared/Table/Table";
 import { headCells, rows } from "./data";
 import Button from "@mui/material/Button";
@@ -22,7 +21,6 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 const TablePage = () => {
   return (
     <>
-      <Header />
       <div className={styles.app}>
         <div className={styles.btnContainer}>
           <SearchStyle
