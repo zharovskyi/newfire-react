@@ -1,5 +1,12 @@
-export const add = (value) => {
+export const requestBeerData = () => {
   return {
-    type: "GET_DATA",
+    type: "REQUESTING_DATA",
+  };
+};
+
+export const showData = (payload) => {
+  return {
+    type: "DATA",
+    payload,
   };
 };

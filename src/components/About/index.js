@@ -5,46 +5,51 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { headCells } from "../TablePage/data";
-// import { createStore } from "redux";
-import React, { useState } from "react";
-// const reducer = (state = {}, action) => state;
+import { useSelector, useDispatch } from "react-redux";
+import { requestBeerData } from "./store/action";
+import { showData } from "./store/action";
 
-// const store = createStore(reducer);
 const conteinerStyle = {
   paddingTop: "100px",
 };
 const About = () => {
-  const [loading, setLoading] = useState(false);
-  const [getData, setGetData] = useState([]);
-
+  const { beerData, loading } = useSelector((state) => {
+    return state;
+  });
+  // eslint-disable-next-line no-debugger
+  // debugger;
+  const dispatch = useDispatch();
   const handleClick = () => {
-    setLoading(true);
-    setTimeout(() => setLoading(false), 1000);
-    setTimeout(() => setGetData(headCells), 2000);
+    dispatch(requestBeerData(beerData));
+
+    setTimeout(() => {
+      dispatch(showData(beerData));
+    }, 1000);
   };
-  console.log("getData :>> ", getData);
+
   return (
-    <div>
+    <div style={conteinerStyle}>
+      <Button variant="contained" onClick={handleClick} disabled={loading}>
+        Get Data
+      </Button>
       {loading ? (
-        <Container style={conteinerStyle}>
-          <CircularProgress disableShrink />
-        </Container>
+        <>
+          <Container>
+            <CircularProgress disableShrink />
+          </Container>
+        </>
       ) : (
-        <Button variant="contained" onClick={handleClick}>
-          Get Data
-        </Button>
-      )}
-      {getData.length > 0 && (
-        <TableHead>
-          <TableRow>
-            {getData.map((headCell) => (
-              <TableCell key={headCell.id} align="left" padding="normal">
-                <TableSortLabel>{headCell.label}</TableSortLabel>
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+        <>
+          <TableHead>
+            <TableRow>
+              {beerData.map((headCell) => (
+                <TableCell key={headCell.id} align="left" padding="normal">
+                  <TableSortLabel>{headCell.label}</TableSortLabel>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+        </>
       )}
     </div>
   );

@@ -22,7 +22,6 @@ function App() {
             <Link to="/">
               <Logo />
             </Link>
-
             <nav>
               <ul>
                 <li>
