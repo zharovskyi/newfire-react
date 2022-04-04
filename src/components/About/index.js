@@ -5,7 +5,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { requestBeerData } from "./store/action";
 import { showData } from "./store/action";
 
@@ -13,14 +13,14 @@ const conteinerStyle = {
   paddingTop: "100px",
 };
 const About = () => {
-  const { beerData, loading } = useSelector((state) => {
-    return state;
-  });
+  const { beerData, loading } = useSelector(({ beerData, loading }) => {
+    return { beerData, loading };
+  }, shallowEqual);
   // eslint-disable-next-line no-debugger
   // debugger;
   const dispatch = useDispatch();
   const handleClick = () => {
-    dispatch(requestBeerData(beerData));
+    dispatch(requestBeerData());
 
     setTimeout(() => {
       dispatch(showData(beerData));

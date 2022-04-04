@@ -1,4 +1,3 @@
-// import { createStore, combineReducers } from "redux";
 import { createStore, compose } from "redux";
 
 const initialState = {
@@ -37,7 +36,6 @@ const reducerData = (state, action) => {
     case "REQUESTING_DATA":
       return {
         ...state,
-        beerData: [],
         loading: true,
       };
     case "DATA":
@@ -58,7 +56,5 @@ const store = createStore(
       window.__REDUX_DEVTOOLS_EXTENSION__(),
   ),
 );
-
-// const store = createStore(combineReducers({ reducerLoading, reducerData }));
 
 export default store;
