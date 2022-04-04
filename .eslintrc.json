@@ -28,7 +28,7 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0,
-    "indent": ["error", 2],
+    "indent": "off",
     "linebreak-style": 0,
     "quotes": ["error", "double"],
     "import/no-named-as-default": 0
