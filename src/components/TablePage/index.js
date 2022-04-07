@@ -1,10 +1,11 @@
 import Table from "../../shared/Table/Table";
-import { headCells, rows } from "./data";
 import Button from "@mui/material/Button";
 import styles from "./index.module.scss";
 import { styled } from "@mui/material/styles";
 import { OutlinedInput, InputAdornment } from "@mui/material";
 import IconifyButtonIcon from "../../shared/IconifyButtonIcon";
+// import { Container } from "@mui/material";
+// import CircularProgress from "@mui/material/CircularProgress";
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -42,7 +43,7 @@ const TablePage = () => {
             Додати рецепт
           </Button>
         </div>
-        <Table headCells={headCells} rows={rows} />
+        <Table />
       </div>
     </>
   );

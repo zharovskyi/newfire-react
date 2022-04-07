@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import React, { Fragment } from "react";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -37,19 +39,21 @@ export default function TableBodyList({
   rowsPerPage,
   orderBy,
 }) {
+  
   return (
     <TableBody>
-      {stableSort(rows, getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((row) => {
+      {rows &&
+        rows.map((row) => {
           return (
-            <TableRow hover key={row.name + row.type}>
-              <TableCell align="left">{row.name}</TableCell>
-              <TableCell align="left">{row.type}</TableCell>
-              <TableCell align="left">{row.alcohol}</TableCell>
-              <TableCell align="left">{row.bittenesrs}</TableCell>
-              <TableCell align="left">{row.capacity}</TableCell>
-            </TableRow>
+            <Fragment key={row.name}>
+              <TableRow hover key={row.name}>
+                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="left">{row.type}</TableCell>
+                <TableCell align="left">{row.alcohol}</TableCell>
+                <TableCell align="left">{row.bittenesrs}</TableCell>
+                <TableCell align="left">{row.capacity}</TableCell>
+              </TableRow>
+            </Fragment>
           );
         })}
     </TableBody>

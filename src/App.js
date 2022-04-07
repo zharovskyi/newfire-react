@@ -12,6 +12,7 @@ import Logo from "./shared/Logo";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import About from "./components/About";
+import Contacts from "./components/Contacts";
 
 function App() {
   return (
@@ -57,7 +58,4 @@ function App() {
   );
 }
 
-function Contacts() {
-  return <h2>Contacts</h2>;
-}
 export default App;

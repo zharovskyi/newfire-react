@@ -1,4 +1,8 @@
-import * as React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadDataAction, loadDataFailureAction } from "../../components/TablePage/redux/actions";
+
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -37,16 +41,31 @@ const EnhancedTableToolbar = ({ numSelected }) => {
   );
 };
 
-export default function EnhancedTable({ headCells, rows }) {
+export default function EnhancedTable() {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("type");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const { loading, beerData } = useSelector((store) => store.tableReducer);
+  const headCells = beerData.headCells;
+  const rows = beerData.rows;
+  const dispatch = useDispatch();
+  console.log("headCells++ ", headCells);
+  useEffect(() => {
+    // const error = new Error();
+    dispatch(loadDataAction());
+    // debugger;
+
+    // if (error) {
+    //   dispatch(loadDataFailureAction(error.name));
+    // }
+  }, []);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
   };
 
   const handleChangePage = (event, newPage) => {
@@ -68,7 +87,7 @@ export default function EnhancedTable({ headCells, rows }) {
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              // rowCount={rows.length}
               headCells={headCells}
             />
             <TableBodyList
@@ -80,17 +99,6 @@ export default function EnhancedTable({ headCells, rows }) {
             />
           </Table>
         </TableContainer>
-        {rows.length > 5 && (
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        )}
       </Paper>
     </Box>
   );
