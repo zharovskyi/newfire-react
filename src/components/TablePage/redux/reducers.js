@@ -1,9 +1,22 @@
-import { LOAD_DATA, LOAD_DATA_FAILURE, LOAD_DATA_SUCCESS } from "./actions";
+/* eslint-disable no-debugger */
+import {
+  CLEAR_TABLE_REDUCER,
+  LOAD_DATA,
+  LOAD_DATA_FAILURE,
+  LOAD_DATA_SUCCESS,
+  SEARCH_LOAD_DATA,
+} from "./actions";
 
 const initialState = {
-  beerData: [],
+  beerData: {
+    headCells: [],
+    rows: [],
+  },
   loading: false,
-  error: ""
+  error: "",
+  currentTime: "",
+  search: "",
+  result: [],
 };
 
 export default function tableReducer(state = initialState, action) {
@@ -15,17 +28,29 @@ export default function tableReducer(state = initialState, action) {
       };
     }
     case LOAD_DATA_SUCCESS: {
+      const { data, time } = action.payload;
       return {
         ...state,
-        beerData: action.payload,
+        beerData: data,
         loading: false,
+        currentTime: time,
       };
     }
     case LOAD_DATA_FAILURE: {
       return {
         ...state,
         loading: false,
-        error: action.error,
+        error: "Something went wrong",
+      };
+    }
+    case CLEAR_TABLE_REDUCER: {
+      return initialState;
+    }
+    case SEARCH_LOAD_DATA: {
+      const search = action.payload;
+      return {
+        ...state,
+        search: search,
       };
     }
     default:

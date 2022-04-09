@@ -1,4 +1,3 @@
-// import { watchClickSaga } from "../components/Contacts/redux/saga";
 import { watchLoadTableDataSaga } from "../components/TablePage/redux/saga";
 
 export default function* rootSaga() {
