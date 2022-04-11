@@ -43,7 +43,33 @@ const EnhancedTableToolbar = ({ numSelected }) => {
     </Toolbar>
   );
 };
-
+const headCells = [
+  {
+    id: "name",
+    numeric: false,
+    label: "Назва рецепту",
+  },
+  {
+    id: "type",
+    numeric: true,
+    label: "Тип пива",
+  },
+  {
+    id: "alcohol",
+    numeric: true,
+    label: "Вміст алкоголю",
+  },
+  {
+    id: "bittenesrs ",
+    numeric: true,
+    label: "Гіркота",
+  },
+  {
+    id: "capacity",
+    numeric: true,
+    label: "Вихідний об'єм",
+  },
+];
 export default function EnhancedTable() {
   const { loading, beerData } = useSelector(
     ({ tableReducer: { loading, beerData } }) => ({
@@ -52,9 +78,6 @@ export default function EnhancedTable() {
     }),
     shallowEqual,
   );
-
-  const headCells = beerData?.headCells;
-  const rows = beerData?.rows;
 
   const dispatch = useDispatch();
 
@@ -83,7 +106,7 @@ export default function EnhancedTable() {
             <TableContainer>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead headCells={headCells} />
-                <TableBodyList rows={rows} />
+                <TableBodyList rows={beerData} />
               </Table>
             </TableContainer>
           </>

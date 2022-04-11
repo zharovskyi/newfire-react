@@ -1,5 +1,3 @@
-/* eslint-disable no-debugger */
-/* eslint-disable no-undef */
 import { shallowEqual, useDispatch } from "react-redux";
 import Table from "../../shared/Table/Table";
 import Button from "@mui/material/Button";
@@ -9,7 +7,6 @@ import { OutlinedInput, InputAdornment } from "@mui/material";
 import IconifyButtonIcon from "../../shared/IconifyButtonIcon";
 import { useSelector } from "react-redux";
 import { loadDataAction, loadDataSearchAction } from "./redux/actions";
-import { useEffect } from "react";
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -25,7 +22,6 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 }));
 
 const TablePage = () => {
-  // const { currentTime } = useSelector((store) => store.tableReducer);
   const { currentTime, search } = useSelector(
     ({ tableReducer: { currentTime, search } }) => ({
       currentTime,
@@ -37,10 +33,11 @@ const TablePage = () => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    console.log("e.target.value :>> ", e.target.value);
     dispatch(loadDataSearchAction(e.target.value));
   };
-
+  // const handleClick = () => {
+  //   dispatch(loadDataAction());
+  // };
   // useEffect(() => {
   //   console.log("search", search);
   //   dispatch(loadDataSearchAction(search));
@@ -72,7 +69,7 @@ const TablePage = () => {
             variant="contained"
             className={styles.btn}
             startIcon={<IconifyButtonIcon icon="eva:plus-fill" />}
-            onClick={() => dispatch(loadDataAction())}
+            onClick={(e) => dispatch(loadDataAction(e))}
           >
             Додати рецепт
           </Button>

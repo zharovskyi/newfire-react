@@ -5,18 +5,15 @@ import {
   LOAD_DATA_FAILURE,
   LOAD_DATA_SUCCESS,
   SEARCH_LOAD_DATA,
+  SEARCH_RESULT_DATA,
 } from "./actions";
 
 const initialState = {
-  beerData: {
-    headCells: [],
-    rows: [],
-  },
+  beerData: [],
   loading: false,
   error: "",
   currentTime: "",
   search: "",
-  result: [],
 };
 
 export default function tableReducer(state = initialState, action) {
@@ -47,10 +44,15 @@ export default function tableReducer(state = initialState, action) {
       return initialState;
     }
     case SEARCH_LOAD_DATA: {
-      const search = action.payload;
       return {
         ...state,
-        search: search,
+        search: action.payload,
+      };
+    }
+    case SEARCH_RESULT_DATA: {
+      return {
+        ...state,
+        beerData: action.payload,
       };
     }
     default:
