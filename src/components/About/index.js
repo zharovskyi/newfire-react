@@ -17,8 +17,6 @@ const About = () => {
   const { beerData, loading } = useSelector(({ beerData, loading }) => {
     return { beerData, loading };
   }, shallowEqual);
-  // eslint-disable-next-line no-debugger
-  // debugger;
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(requestBeerData());

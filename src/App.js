@@ -26,13 +26,13 @@ function App() {
             <nav>
               <ul>
                 <li>
-                  <Link to="/">Головна</Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/about">Про нас</Link>
+                  <Link to="/about">About Us</Link>
                 </li>
                 <li>
-                  <Link to="/contacts">Контакти</Link>
+                  <Link to="/contacts">Contacts</Link>
                 </li>
                 <li>
                   <Button variant="contained">Log in</Button>

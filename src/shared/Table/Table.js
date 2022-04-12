@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import EnhancedTableHead from "./TableHead";
 import TableBodyList from "./TableBody";
-import { CircularProgress, Container } from "@mui/material";
+import { CircularProgress, Container, TablePagination } from "@mui/material";
 import styles from "./Table.module.scss";
 
 const EnhancedTableToolbar = ({ numSelected }) => {
@@ -88,6 +88,16 @@ export default function EnhancedTable() {
     };
   }, [dispatch]);
 
+  const [rowsPerPage, setRowsPerPage] = React.useState(1);
+  const [page, setPage] = React.useState(0);
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 1));
+    setPage(0);
+  };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -109,6 +119,17 @@ export default function EnhancedTable() {
                 <TableBodyList rows={beerData} />
               </Table>
             </TableContainer>
+            {beerData.length > 1 && (
+              <TablePagination
+                rowsPerPageOptions={[1, 2, 4]}
+                component="div"
+                count={beerData.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </>
         )}
       </Paper>

@@ -5,7 +5,7 @@ import {
   LOAD_DATA_FAILURE,
   LOAD_DATA_SUCCESS,
   SEARCH_LOAD_DATA,
-  SEARCH_RESULT_DATA,
+  SORT_LOAD_TYPE,
 } from "./actions";
 
 const initialState = {
@@ -14,6 +14,8 @@ const initialState = {
   error: "",
   currentTime: "",
   search: "",
+  sortBy: "",
+  order: "",
 };
 
 export default function tableReducer(state = initialState, action) {
@@ -25,12 +27,15 @@ export default function tableReducer(state = initialState, action) {
       };
     }
     case LOAD_DATA_SUCCESS: {
-      const { data, time } = action.payload;
+      const { data, time, query, order, sortTypeQuery } = action.payload;
       return {
         ...state,
         beerData: data,
         loading: false,
         currentTime: time,
+        search: query,
+        sortBy: sortTypeQuery,
+        order: order,
       };
     }
     case LOAD_DATA_FAILURE: {
@@ -49,12 +54,13 @@ export default function tableReducer(state = initialState, action) {
         search: action.payload,
       };
     }
-    case SEARCH_RESULT_DATA: {
+    case SORT_LOAD_TYPE: {
       return {
         ...state,
-        beerData: action.payload,
+        sortBy: action.payload,
       };
     }
+
     default:
       return state;
   }

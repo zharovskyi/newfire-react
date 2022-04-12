@@ -35,13 +35,6 @@ const TablePage = () => {
   const handleChange = (e) => {
     dispatch(loadDataSearchAction(e.target.value));
   };
-  // const handleClick = () => {
-  //   dispatch(loadDataAction());
-  // };
-  // useEffect(() => {
-  //   console.log("search", search);
-  //   dispatch(loadDataSearchAction(search));
-  // }, [search]);
 
   return (
     <>
@@ -71,7 +64,7 @@ const TablePage = () => {
             startIcon={<IconifyButtonIcon icon="eva:plus-fill" />}
             onClick={(e) => dispatch(loadDataAction(e))}
           >
-            Додати рецепт
+            Add new recipe
           </Button>
         </div>
         <Table />

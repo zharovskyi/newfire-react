@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Silver Dollar Porter",
-      "type": "Американский Портер",
+      "type": "American Porter",
       "alcohol": 6.2,
       "bittenesrs": 38.4,
       "capacity": 21
@@ -11,7 +11,7 @@
     {
       "id": 2,
       "name": "Young’s Special London Ale clone",
-      "type": "Стронг Біттер",
+      "type": "Strong Bitter",
       "alcohol": 5.2,
       "bittenesrs": 30.1,
       "capacity": 20.5
@@ -19,10 +19,18 @@
     {
       "id": 3,
       "name": "From Lviv",
-      "type": "Світлий лагер",
+      "type": "Dark Lager",
       "alcohol": 9.1,
       "bittenesrs": 20.9,
       "capacity": 20
+    },
+    {
+      "id": 4,
+      "name": "Ternopil",
+      "type": "Lager",
+      "alcohol": 6.1,
+      "bittenesrs": 21.9,
+      "capacity": 22
     }
   ]
 }
