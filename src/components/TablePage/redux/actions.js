@@ -4,6 +4,8 @@ export const LOAD_DATA_FAILURE = "LOAD_DATA_FAILURE";
 export const CLEAR_TABLE_REDUCER = "CLEAR_TABLE_REDUCER";
 export const SEARCH_LOAD_DATA = "SEARCH_LOAD_DATA";
 export const SORT_LOAD_TYPE = "SORT_LOAD_TYPE";
+export const CHANGE_PAGE = "CHANGE_PAGE";
+export const ROWS_PER_PAGE = "ROWS_PER_PAGE";
 
 export const loadDataAction = () => ({ type: LOAD_DATA });
 export const loadDataSuccesAction = (payload) => ({
@@ -23,5 +25,14 @@ export const loadDataSearchAction = (payload) => ({
 
 export const loadTypeSortAction = (payload) => ({
   type: SORT_LOAD_TYPE,
+  payload,
+});
+export const changePageAction = (payload) => ({
+  type: SORT_LOAD_TYPE,
+  payload,
+});
+
+export const changeRowsPerPageAction = (payload) => ({
+  type: ROWS_PER_PAGE,
   payload,
 });

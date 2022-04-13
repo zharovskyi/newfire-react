@@ -16,9 +16,6 @@ export default function EnhancedTableHead({ headCells }) {
           headCells.map((headCell) => (
             <TableCell key={headCell.id} align="left" padding="normal">
               <TableSortLabel
-                // active={orderBy === headCell.id}
-                // direction="desc"
-                // onClick={createSortHandler(headCell.id)}
                 id={headCell.id}
                 onClick={() => dispatch(loadTypeSortAction(headCell.id))}
               >

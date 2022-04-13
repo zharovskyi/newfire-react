@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
+  changePageAction,
+  changeRowsPerPageAction,
   clearTableReducerAction,
   loadDataAction,
 } from "../../components/TablePage/redux/actions";
@@ -71,10 +73,11 @@ const headCells = [
   },
 ];
 export default function EnhancedTable() {
-  const { loading, beerData } = useSelector(
-    ({ tableReducer: { loading, beerData } }) => ({
+  const { loading, beerData, limit } = useSelector(
+    ({ tableReducer: { loading, beerData, limit } }) => ({
       loading,
       beerData,
+      limit,
     }),
     shallowEqual,
   );
@@ -87,16 +90,6 @@ export default function EnhancedTable() {
       dispatch(clearTableReducerAction());
     };
   }, [dispatch]);
-
-  const [rowsPerPage, setRowsPerPage] = React.useState(1);
-  const [page, setPage] = React.useState(0);
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 1));
-    setPage(0);
-  };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -121,13 +114,15 @@ export default function EnhancedTable() {
             </TableContainer>
             {beerData.length > 1 && (
               <TablePagination
-                rowsPerPageOptions={[1, 2, 4]}
+                rowsPerPageOptions={[2, 4, 6]}
                 component="div"
                 count={beerData.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                // page={beerData.length / limit}
+                rowsPerPage={limit}
+                onRowsPerPageChange={(event) =>
+                  dispatch(changeRowsPerPageAction(event.target.value))
+                }
+                onPageChange={(page) => dispatch(changePageAction(page))}
               />
             )}
           </>

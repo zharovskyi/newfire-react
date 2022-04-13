@@ -6,6 +6,8 @@ import {
   loadDataFailureAction,
   SEARCH_LOAD_DATA,
   SORT_LOAD_TYPE,
+  CHANGE_PAGE,
+  ROWS_PER_PAGE,
 } from "./actions";
 function addZero(i) {
   if (i < 10) {
@@ -13,49 +15,32 @@ function addZero(i) {
   }
   return i;
 }
-// function generateQueryParams(url, queryParams) {
-//   let urlWithParams = `${url}?`;
-//   Object.keys(queryParams).forEach((key, index) => {
-//     const paramsElement = queryParams[key];
-//     if (paramsElement || paramsElement === false || paramsElement === 0) {
-//       let param = "";
-//       if (typeof paramsElement === "object") {
-//         paramsElement.forEach((value, index) => {
-//           param += this._getAdjustedParameter(
-//             index,
-//             paramsElement,
-//             `${key}=${value}`,
-//           );
-//         });
-//       } else {
-//         param = `${key}=${paramsElement}`;
-//       }
-//       urlWithParams += this._getAdjustedParameter(index, queryParams, param);
-//     }
-//   });
-//   console.log("urlWithParams", urlWithParams);
-//   return urlWithParams;
-// }
-
-// const queryParams = { search: "", sort: "asc", page: 1 };
-// generateQueryParams("http://localhost:3001/rows", queryParams);
 
 const my_url = new URL("http://localhost:3001/rows");
 
-// const parameters = {
-//   query: "",
-//   sortType: "",
-//   order: "",
-// };
+const parameters = {
+  q: "",
+  _sort: "",
+  _order: "",
+  _page: 1,
+  _limit: 2,
+};
+function generateQueryParams(url, queryParams) {
+  let urlWithParams = `${url}?`;
+  const res = {};
+  Object.entries(queryParams).forEach(([name, value]) => {
+    if (value && name) {
+      res[name] = value;
+    }
+  });
+  let params = new URLSearchParams(res);
+  return urlWithParams + params;
+}
 
-// Object.entries(parameters).forEach(([name, value]) =>
-//   my_url.searchParams.set(name, value),
-// );
-
-// console.log("my_url.href", my_url.href);
-async function getBeerItems( query = "", sortType = "", order = "" ) {
+async function getBeerItems(parameters) {
   const request = await fetch(
-    `${my_url}?q=${query}&_sort=${sortType}&_order=${order}`,
+    generateQueryParams(my_url, parameters),
+    // `${my_url}?q=${query}&_sort=${sortType}&_order=${order}`,
   );
   const data = await request.json();
   return data;
@@ -65,24 +50,47 @@ function* workerSagaBeerItems() {
   const selectSearchQuery = (state) => state.tableReducer.search;
   const orderType = (state) => state.tableReducer.order;
   const sortType = (state) => state.tableReducer.sortBy;
+  const pages = (state) => state.tableReducer.page;
+  const rowsPerPages = (state) => state.tableReducer.limit;
 
   const query = yield select(selectSearchQuery);
+  const rowsPerPage = yield select(rowsPerPages);
+  const sortTypeQuery = yield select(sortType);
+  let page = yield select(pages);
+
   let order = yield select(orderType);
   if (order === "asc") {
     order = "desc";
   } else {
     order = "asc";
   }
-  const sortTypeQuery = yield select(sortType);
-
+  if (query) {
+    parameters.q = query;
+  }
+  if (sortTypeQuery) {
+    parameters._sort = sortTypeQuery;
+  }
+  parameters._order = order;
+  parameters._page = page;
+  parameters._limit = rowsPerPage;
   try {
-    const data = yield call(getBeerItems, query, sortTypeQuery, order);
+    const data = yield call(getBeerItems, parameters);
+    console.log("parameters", parameters);
     const currentTime = new Date();
     const hours = currentTime.getHours();
     const minutes = addZero(currentTime.getMinutes());
     const sec = addZero(currentTime.getSeconds());
     const time = `${hours}:${minutes}:${sec}`;
-    yield put(loadDataSuccesAction({ data, time, sortTypeQuery, order }));
+    yield put(
+      loadDataSuccesAction({
+        data,
+        time,
+        sortTypeQuery,
+        order,
+        page,
+        rowsPerPage,
+      }),
+    );
   } catch (error) {
     console.log("error :>> ", error);
     yield put(loadDataFailureAction(error));
@@ -91,7 +99,20 @@ function* workerSagaBeerItems() {
 
 export function* watchLoadTableDataSaga() {
   yield takeEvery(
-    [LOAD_DATA, SEARCH_LOAD_DATA, SORT_LOAD_TYPE],
+    [LOAD_DATA, SEARCH_LOAD_DATA, SORT_LOAD_TYPE, ROWS_PER_PAGE, CHANGE_PAGE],
     workerSagaBeerItems,
   );
 }
+
+// function generateQueryParams(url, queryParams) {
+//   let urlWithParams = `${url}?`;
+//   let params = "";
+//   Object.entries(queryParams).forEach(([name, value]) => {
+//     if (name === "query" && value) {
+//       params += `q=${value}`;
+//     } else if (value) {
+//       params += `${name}=${value}&`;
+//     }
+//   });
+//   return (urlWithParams += params);
+// }

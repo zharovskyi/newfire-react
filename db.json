@@ -31,6 +31,22 @@
       "alcohol": 6.1,
       "bittenesrs": 21.9,
       "capacity": 22
+    },
+    {
+      "id": 5,
+      "name": "Kaluske",
+      "type": "Dark Lager",
+      "alcohol": 5.5,
+      "bittenesrs": 23.9,
+      "capacity": 20
+    },
+    {
+      "id": 6,
+      "name": "Opillya",
+      "type": "Lager",
+      "alcohol": 4.5,
+      "bittenesrs": 21.5,
+      "capacity": 19
     }
   ]
 }
