@@ -12,6 +12,7 @@ import Logo from "./shared/Logo";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import About from "./components/About";
+import Contacts from "./components/Contacts";
 
 function App() {
   return (
@@ -25,13 +26,13 @@ function App() {
             <nav>
               <ul>
                 <li>
-                  <Link to="/">Головна</Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/about">Про нас</Link>
+                  <Link to="/about">About Us</Link>
                 </li>
                 <li>
-                  <Link to="/contacts">Контакти</Link>
+                  <Link to="/contacts">Contacts</Link>
                 </li>
                 <li>
                   <Button variant="contained">Log in</Button>
@@ -57,7 +58,4 @@ function App() {
   );
 }
 
-function Contacts() {
-  return <h2>Contacts</h2>;
-}
 export default App;

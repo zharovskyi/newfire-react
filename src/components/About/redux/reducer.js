@@ -1,4 +1,4 @@
-import { createStore, compose } from "redux";
+// import { createStore, compose } from "redux";
 
 const initialState = {
   beerData: [
@@ -31,7 +31,7 @@ const initialState = {
   loading: false,
 };
 
-const reducerData = (state, action) => {
+const aboutReducer = (state = initialState, action) => {
   switch (action.type) {
     case "REQUESTING_DATA":
       return {
@@ -48,13 +48,14 @@ const reducerData = (state, action) => {
       return state;
   }
 };
-const store = createStore(
-  reducerData,
-  initialState,
-  compose(
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION__(),
-  ),
-);
+// const store = createStore(
+//   reducerData,
+//   initialState,
+//   compose(
+//     window.__REDUX_DEVTOOLS_EXTENSION__ &&
+//       window.__REDUX_DEVTOOLS_EXTENSION__(),
+//   ),
+// );
 
-export default store;
+// export default store;
+export default aboutReducer;

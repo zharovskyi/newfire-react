@@ -1,14 +1,23 @@
-import * as React from "react";
+import React, { useEffect } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import {
+  changePageAction,
+  changeRowsPerPageAction,
+  clearTableReducerAction,
+  loadDataAction,
+} from "../../components/TablePage/redux/actions";
+
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import TablePagination from "@mui/material/TablePagination";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import EnhancedTableHead from "./TableHead";
 import TableBodyList from "./TableBody";
+import { CircularProgress, Container, TablePagination } from "@mui/material";
+import styles from "./Table.module.scss";
 
 const EnhancedTableToolbar = ({ numSelected }) => {
   return (
@@ -36,60 +45,98 @@ const EnhancedTableToolbar = ({ numSelected }) => {
     </Toolbar>
   );
 };
+const headCells = [
+  {
+    id: "name",
+    numeric: false,
+    label: "Назва рецепту",
+  },
+  {
+    id: "type",
+    numeric: true,
+    label: "Тип пива",
+  },
+  {
+    id: "alcohol",
+    numeric: true,
+    label: "Вміст алкоголю",
+  },
+  {
+    id: "bittenesrs ",
+    numeric: true,
+    label: "Гіркота",
+  },
+  {
+    id: "capacity",
+    numeric: true,
+    label: "Вихідний об'єм",
+  },
+];
+export default function EnhancedTable() {
+  const { loading, beerData, limit, page } = useSelector(
+    ({ tableReducer: { loading, beerData, limit, page } }) => ({
+      loading,
+      beerData,
+      limit,
+      page,
+    }),
+    shallowEqual,
+  );
 
-export default function EnhancedTable({ headCells, rows }) {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("type");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const dispatch = useDispatch();
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  useEffect(() => {
+    dispatch(loadDataAction());
+    return () => {
+      dispatch(clearTableReducerAction());
+    };
+  }, [dispatch]);
 
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar />
-        <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-              headCells={headCells}
-            />
-            <TableBodyList
-              order={order}
-              rows={rows}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              orderBy={orderBy}
-            />
-          </Table>
-        </TableContainer>
-        {rows.length > 5 && (
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+
+        {loading ? (
+          <>
+            <div className={styles.loader}>
+              <Container>
+                <CircularProgress disableShrink />
+              </Container>
+            </div>
+          </>
+        ) : (
+          <>
+            <TableContainer>
+              <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+                <EnhancedTableHead headCells={headCells} />
+                <TableBodyList rows={beerData} />
+              </Table>
+            </TableContainer>
+            {beerData.length > 1 && (
+              <TablePagination
+                rowsPerPageOptions={[2, 4, 6]}
+                component="div"
+                count={7}
+                page={page}
+                rowsPerPage={limit}
+                onRowsPerPageChange={(event) => {
+                  return dispatch(changeRowsPerPageAction(event.target.value));
+                }}
+                onPageChange={(event, newPage) => {
+                  console.log("newPage", newPage);
+                  // if (newPage === 0) {
+                  //   newPage = 1;
+                  // }
+
+                  return dispatch(changePageAction(newPage));
+                  // return () => {
+                  //   dispatch(clearTableReducerAction());
+                  // };
+                }}
+              />
+            )}
+          </>
         )}
       </Paper>
     </Box>
