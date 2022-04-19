@@ -3,9 +3,10 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
 export default function TableBodyList({ rows }) {
+ 
   return (
     <TableBody>
-      {rows.length ? (
+      {rows?.length ? (
         rows.map((row) => {
           return (
             <TableRow hover key={row.name}>

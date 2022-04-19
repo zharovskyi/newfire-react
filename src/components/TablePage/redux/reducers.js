@@ -41,8 +41,8 @@ export default function tableReducer(state = initialState, action) {
         search: query,
         sortBy: sortTypeQuery,
         order: order,
-        page: page,
-        limit: rowsPerPage,
+        // page: page,
+        // limit: rowsPerPage,
       };
     }
     case LOAD_DATA_FAILURE: {

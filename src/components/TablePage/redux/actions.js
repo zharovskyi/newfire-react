@@ -28,7 +28,7 @@ export const loadTypeSortAction = (payload) => ({
   payload,
 });
 export const changePageAction = (payload) => ({
-  type: SORT_LOAD_TYPE,
+  type: CHANGE_PAGE,
   payload,
 });
 

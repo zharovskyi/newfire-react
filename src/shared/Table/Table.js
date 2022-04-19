@@ -73,11 +73,12 @@ const headCells = [
   },
 ];
 export default function EnhancedTable() {
-  const { loading, beerData, limit } = useSelector(
-    ({ tableReducer: { loading, beerData, limit } }) => ({
+  const { loading, beerData, limit, page } = useSelector(
+    ({ tableReducer: { loading, beerData, limit, page } }) => ({
       loading,
       beerData,
       limit,
+      page,
     }),
     shallowEqual,
   );
@@ -116,13 +117,23 @@ export default function EnhancedTable() {
               <TablePagination
                 rowsPerPageOptions={[2, 4, 6]}
                 component="div"
-                count={beerData.length}
-                // page={beerData.length / limit}
+                count={7}
+                page={page}
                 rowsPerPage={limit}
-                onRowsPerPageChange={(event) =>
-                  dispatch(changeRowsPerPageAction(event.target.value))
-                }
-                onPageChange={(page) => dispatch(changePageAction(page))}
+                onRowsPerPageChange={(event) => {
+                  return dispatch(changeRowsPerPageAction(event.target.value));
+                }}
+                onPageChange={(event, newPage) => {
+                  console.log("newPage", newPage);
+                  // if (newPage === 0) {
+                  //   newPage = 1;
+                  // }
+
+                  return dispatch(changePageAction(newPage));
+                  // return () => {
+                  //   dispatch(clearTableReducerAction());
+                  // };
+                }}
               />
             )}
           </>

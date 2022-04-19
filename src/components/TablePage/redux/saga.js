@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import { takeEvery, put, call, select } from "redux-saga/effects";
 import {
   LOAD_DATA,
@@ -38,10 +37,7 @@ function generateQueryParams(url, queryParams) {
 }
 
 async function getBeerItems(parameters) {
-  const request = await fetch(
-    generateQueryParams(my_url, parameters),
-    // `${my_url}?q=${query}&_sort=${sortType}&_order=${order}`,
-  );
+  const request = await fetch(generateQueryParams(my_url, parameters));
   const data = await request.json();
   return data;
 }
@@ -50,15 +46,15 @@ function* workerSagaBeerItems() {
   const selectSearchQuery = (state) => state.tableReducer.search;
   const orderType = (state) => state.tableReducer.order;
   const sortType = (state) => state.tableReducer.sortBy;
-  const pages = (state) => state.tableReducer.page;
   const rowsPerPages = (state) => state.tableReducer.limit;
+  const pages = (state) => state.tableReducer.page;
 
   const query = yield select(selectSearchQuery);
-  const rowsPerPage = yield select(rowsPerPages);
   const sortTypeQuery = yield select(sortType);
-  let page = yield select(pages);
-
+  const rowsPerPage = yield select(rowsPerPages);
+  const page = yield select(pages);
   let order = yield select(orderType);
+
   if (order === "asc") {
     order = "desc";
   } else {
@@ -71,11 +67,15 @@ function* workerSagaBeerItems() {
     parameters._sort = sortTypeQuery;
   }
   parameters._order = order;
-  parameters._page = page;
   parameters._limit = rowsPerPage;
+  // if (page === 0 || page === 1 || !page ) {
+  //   parameters._page = 1;
+  // } else {
+  //   parameters._page = page;
+  // }
+  parameters._page = page;
   try {
     const data = yield call(getBeerItems, parameters);
-    console.log("parameters", parameters);
     const currentTime = new Date();
     const hours = currentTime.getHours();
     const minutes = addZero(currentTime.getMinutes());
@@ -103,16 +103,3 @@ export function* watchLoadTableDataSaga() {
     workerSagaBeerItems,
   );
 }
-
-// function generateQueryParams(url, queryParams) {
-//   let urlWithParams = `${url}?`;
-//   let params = "";
-//   Object.entries(queryParams).forEach(([name, value]) => {
-//     if (name === "query" && value) {
-//       params += `q=${value}`;
-//     } else if (value) {
-//       params += `${name}=${value}&`;
-//     }
-//   });
-//   return (urlWithParams += params);
-// }
