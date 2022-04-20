@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import {
   CHANGE_PAGE,
   CLEAR_TABLE_REDUCER,
@@ -18,7 +17,7 @@ const initialState = {
   search: "",
   sortBy: "",
   order: "",
-  page: 1,
+  page: 0,
   limit: 2,
 };
 
@@ -31,8 +30,7 @@ export default function tableReducer(state = initialState, action) {
       };
     }
     case LOAD_DATA_SUCCESS: {
-      const { data, time, query, order, sortTypeQuery, page, rowsPerPage } =
-        action.payload;
+      const { data, time, query, order, sortTypeQuery } = action.payload;
       return {
         ...state,
         beerData: data,
@@ -41,8 +39,6 @@ export default function tableReducer(state = initialState, action) {
         search: query,
         sortBy: sortTypeQuery,
         order: order,
-        // page: page,
-        // limit: rowsPerPage,
       };
     }
     case LOAD_DATA_FAILURE: {
@@ -59,12 +55,14 @@ export default function tableReducer(state = initialState, action) {
       return {
         ...state,
         search: action.payload,
+        page: 0,
       };
     }
     case SORT_LOAD_TYPE: {
       return {
         ...state,
         sortBy: action.payload,
+        page: 0,
       };
     }
     case CHANGE_PAGE: {
@@ -77,6 +75,7 @@ export default function tableReducer(state = initialState, action) {
       return {
         ...state,
         limit: action.payload,
+        page: 0,
       };
     }
 
