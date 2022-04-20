@@ -68,12 +68,7 @@ function* workerSagaBeerItems() {
   }
   parameters._order = order;
   parameters._limit = rowsPerPage;
-  // if (page === 0 || page === 1 || !page ) {
-  //   parameters._page = 1;
-  // } else {
-  //   parameters._page = page;
-  // }
-  parameters._page = page;
+  parameters._page = page + 1;
   try {
     const data = yield call(getBeerItems, parameters);
     const currentTime = new Date();
@@ -87,8 +82,6 @@ function* workerSagaBeerItems() {
         time,
         sortTypeQuery,
         order,
-        page,
-        rowsPerPage,
       }),
     );
   } catch (error) {

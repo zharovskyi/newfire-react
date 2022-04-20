@@ -117,22 +117,14 @@ export default function EnhancedTable() {
               <TablePagination
                 rowsPerPageOptions={[2, 4, 6]}
                 component="div"
-                count={7}
+                count={6}
                 page={page}
                 rowsPerPage={limit}
                 onRowsPerPageChange={(event) => {
                   return dispatch(changeRowsPerPageAction(event.target.value));
                 }}
                 onPageChange={(event, newPage) => {
-                  console.log("newPage", newPage);
-                  // if (newPage === 0) {
-                  //   newPage = 1;
-                  // }
-
                   return dispatch(changePageAction(newPage));
-                  // return () => {
-                  //   dispatch(clearTableReducerAction());
-                  // };
                 }}
               />
             )}
