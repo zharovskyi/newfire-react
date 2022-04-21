@@ -1,11 +1,15 @@
 import {
   CHANGE_PAGE,
   CLEAR_TABLE_REDUCER,
+  FORM_FAILED,
+  FORM_RECEIVED,
   LOAD_DATA,
   LOAD_DATA_FAILURE,
   LOAD_DATA_SUCCESS,
+  PUT_DATA,
   ROWS_PER_PAGE,
   SEARCH_LOAD_DATA,
+  SHOW_MODAL,
   SORT_LOAD_TYPE,
 } from "./actions";
 
@@ -19,6 +23,10 @@ const initialState = {
   order: "",
   page: 0,
   limit: 2,
+  isModalOpen: false,
+  success: false,
+  failed:false,
+  formData: [],
 };
 
 export default function tableReducer(state = initialState, action) {
@@ -27,6 +35,7 @@ export default function tableReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
+        formData: [],
       };
     }
     case LOAD_DATA_SUCCESS: {
@@ -39,6 +48,7 @@ export default function tableReducer(state = initialState, action) {
         search: query,
         sortBy: sortTypeQuery,
         order: order,
+        formData: [],
       };
     }
     case LOAD_DATA_FAILURE: {
@@ -78,7 +88,31 @@ export default function tableReducer(state = initialState, action) {
         page: 0,
       };
     }
-
+    case PUT_DATA: {
+      return {
+        ...state,
+        formData: action.payload,
+        page: 0,
+      };
+    }
+    case SHOW_MODAL: {
+      return {
+        ...state,
+        isModalOpen: !state.isModalOpen,
+      };
+    }
+    case FORM_RECEIVED: {
+      return {
+        ...state,
+        success: action.payload,
+      };
+    }
+    case FORM_FAILED: {
+      return {
+        ...state,
+        failed: action.payload,
+      };
+    }
     default:
       return state;
   }

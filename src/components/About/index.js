@@ -27,10 +27,9 @@ const About = () => {
   };
   useEffect(() => {
     try {
-      fetch("http://localhost:3001/posts")
+      fetch("http://localhost:3001/rows")
         .then((response) => response.json())
         .then((data) => {
-          console.log("data :>> ", data);
           return data;
         });
     } catch (error) {
