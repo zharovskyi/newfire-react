@@ -1,12 +1,14 @@
 import { shallowEqual, useDispatch } from "react-redux";
 import Table from "../../shared/Table/Table";
-import Button from "@mui/material/Button";
 import styles from "./index.module.scss";
 import { styled } from "@mui/material/styles";
 import { OutlinedInput, InputAdornment } from "@mui/material";
 import IconifyButtonIcon from "../../shared/IconifyButtonIcon";
 import { useSelector } from "react-redux";
-import { loadDataAction, loadDataSearchAction } from "./redux/actions";
+import { loadDataSearchAction } from "./redux/actions";
+import ModalContainer from "../../shared/Modal/Modal";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -58,16 +60,11 @@ const TablePage = () => {
               Last updated {currentTime}
             </div>
           )}
-          <Button
-            variant="contained"
-            className={styles.btn}
-            startIcon={<IconifyButtonIcon icon="eva:plus-fill" />}
-            onClick={(e) => dispatch(loadDataAction(e))}
-          >
-            Add new recipe
-          </Button>
+          <ModalContainer />
+          
         </div>
         <Table />
+        <ToastContainer autoClose={2000} />
       </div>
     </>
   );

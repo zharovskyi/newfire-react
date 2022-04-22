@@ -40,7 +40,7 @@ const EnhancedTableToolbar = ({ numSelected }) => {
         id="tableTitle"
         component="div"
       >
-        Інформація про пиво
+        Information of beer
       </Typography>
     </Toolbar>
   );
@@ -49,27 +49,27 @@ const headCells = [
   {
     id: "name",
     numeric: false,
-    label: "Назва рецепту",
+    label: "Name of recipe",
   },
   {
     id: "type",
     numeric: true,
-    label: "Тип пива",
+    label: "Type of beer",
   },
   {
     id: "alcohol",
     numeric: true,
-    label: "Вміст алкоголю",
+    label: "Alcohol",
   },
   {
     id: "bittenesrs ",
     numeric: true,
-    label: "Гіркота",
+    label: "Bittenesrs",
   },
   {
     id: "capacity",
     numeric: true,
-    label: "Вихідний об'єм",
+    label: "Capacity",
   },
 ];
 export default function EnhancedTable() {
@@ -82,7 +82,8 @@ export default function EnhancedTable() {
     }),
     shallowEqual,
   );
-
+  const total = beerData.total;
+  const rows = beerData.data;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -91,7 +92,6 @@ export default function EnhancedTable() {
       dispatch(clearTableReducerAction());
     };
   }, [dispatch]);
-
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -110,14 +110,14 @@ export default function EnhancedTable() {
             <TableContainer>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead headCells={headCells} />
-                <TableBodyList rows={beerData} />
+                <TableBodyList rows={rows} />
               </Table>
             </TableContainer>
-            {beerData.length > 1 && (
+            {beerData.data?.length > 1 && (
               <TablePagination
                 rowsPerPageOptions={[2, 4, 6]}
                 component="div"
-                count={6}
+                count={total}
                 page={page}
                 rowsPerPage={limit}
                 onRowsPerPageChange={(event) => {

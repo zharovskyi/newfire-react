@@ -1,4 +1,5 @@
-import { takeEvery, put, call, select } from "redux-saga/effects";
+/* eslint-disable no-unreachable */
+import { takeEvery, takeLatest, put, call, select } from "redux-saga/effects";
 import {
   LOAD_DATA,
   loadDataSuccesAction,
@@ -7,7 +8,11 @@ import {
   SORT_LOAD_TYPE,
   CHANGE_PAGE,
   ROWS_PER_PAGE,
+  PUT_DATA,
+  showModalType,
 } from "./actions";
+import { toast } from "react-toastify";
+
 function addZero(i) {
   if (i < 10) {
     i = "0" + i;
@@ -38,10 +43,23 @@ function generateQueryParams(url, queryParams) {
 
 async function getBeerItems(parameters) {
   const request = await fetch(generateQueryParams(my_url, parameters));
+  let total = request.headers.get("X-Total-Count");
   const data = await request.json();
-  return data;
+  const res = { data, total };
+  return res;
 }
 
+function putFormData(data) {
+  return fetch(my_url, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  }).catch((error) => {
+    console.log("ERROR", error);
+  });
+}
 function* workerSagaBeerItems() {
   const selectSearchQuery = (state) => state.tableReducer.search;
   const orderType = (state) => state.tableReducer.order;
@@ -89,10 +107,25 @@ function* workerSagaBeerItems() {
     yield put(loadDataFailureAction(error));
   }
 }
-
+function* workerSagaPutFormData(action) {
+  const { data: datas, onSucessCalback } = action.payload;
+  try {
+    yield call(putFormData, datas);
+    yield put(showModalType(false));
+    yield call(workerSagaBeerItems);
+    if (onSucessCalback) {
+      onSucessCalback();
+    }
+    toast.success("Thank you for filling out your information!");
+  } catch (error) {
+    console.log("workerSaga ", error);
+    toast.error("Something went wrong.");
+  }
+}
 export function* watchLoadTableDataSaga() {
   yield takeEvery(
     [LOAD_DATA, SEARCH_LOAD_DATA, SORT_LOAD_TYPE, ROWS_PER_PAGE, CHANGE_PAGE],
     workerSagaBeerItems,
   );
+  yield takeLatest([PUT_DATA], workerSagaPutFormData);
 }
