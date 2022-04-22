@@ -108,13 +108,13 @@ function* workerSagaBeerItems() {
   }
 }
 function* workerSagaPutFormData(action) {
-  const { data: datas, onSucessCalback } = action.payload;
+  const { data: datas, onSucessCleanFormCalback } = action.payload;
   try {
     yield call(putFormData, datas);
     yield put(showModalType(false));
     yield call(workerSagaBeerItems);
-    if (onSucessCalback) {
-      onSucessCalback();
+    if (onSucessCleanFormCalback) {
+      onSucessCleanFormCalback();
     }
     toast.success("Thank you for filling out your information!");
   } catch (error) {
