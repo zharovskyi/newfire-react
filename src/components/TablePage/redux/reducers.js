@@ -1,8 +1,6 @@
 import {
   CHANGE_PAGE,
   CLEAR_TABLE_REDUCER,
-  FORM_FAILED,
-  FORM_RECEIVED,
   LOAD_DATA,
   LOAD_DATA_FAILURE,
   LOAD_DATA_SUCCESS,
@@ -24,9 +22,6 @@ const initialState = {
   page: 0,
   limit: 2,
   isModalOpen: false,
-  success: false,
-  failed:false,
-  formData: [],
 };
 
 export default function tableReducer(state = initialState, action) {
@@ -99,18 +94,6 @@ export default function tableReducer(state = initialState, action) {
       return {
         ...state,
         isModalOpen: !state.isModalOpen,
-      };
-    }
-    case FORM_RECEIVED: {
-      return {
-        ...state,
-        success: action.payload,
-      };
-    }
-    case FORM_FAILED: {
-      return {
-        ...state,
-        failed: action.payload,
       };
     }
     default:

@@ -11,8 +11,6 @@ import { Alert, Button, Snackbar } from "@mui/material";
 import IconifyButtonIcon from "../IconifyButtonIcon";
 import {
   clearTableReducerAction,
-  loadDataAction,
-  receivedFormType,
   sendPutData,
   showModalType,
 } from "../../components/TablePage/redux/actions";
@@ -28,16 +26,15 @@ const redText = {
 };
 const ModalContainer = () => {
   const dispatch = useDispatch();
-  const { isModalOpen, success, failed } = useSelector(
-    ({ tableReducer: { isModalOpen, success, failed } }) => ({
-      isModalOpen,
-      success,
-      failed,
-    }),
-  );
+
+  const { isModalOpen } = useSelector(({ tableReducer: { isModalOpen } }) => ({
+    isModalOpen,
+  }));
+
   const toggleModal = () => {
     dispatch(showModalType());
   };
+
   const schema = yup.object().shape({
     name: yup
       .string()
@@ -57,6 +54,7 @@ const ModalContainer = () => {
     // password: yup.string().min(4).max(15).required(),
     // confirmPassword: yup.string().oneOf([yup.ref("password"), null]),
   });
+
   const {
     register,
     handleSubmit,
@@ -68,13 +66,23 @@ const ModalContainer = () => {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    dispatch(sendPutData(data));
+    dispatch(
+      sendPutData({
+        data,
+        onSucessCalback: () => {
+          reset();
+          // toggleModal(false);
+        },
+      }),
+    );
   };
-  useEffect(() => {
-    dispatch(loadDataAction());
-  }, [success]);
+
+  // useEffect(() => {
+  //   dispatch(loadDataAction());
+  // }, [success]);
 
   const [open, setOpen] = useState(false);
+
   const handleClick = () => {
     setOpen(true);
   };
@@ -148,7 +156,6 @@ const ModalContainer = () => {
             />
             <br />
             <Button
-              onClick={handleClick}
               variant="contained"
               className={styles.btn}
               type="submit"
@@ -157,38 +164,6 @@ const ModalContainer = () => {
             </Button>
           </Box>
         </ModalItem>
-      )}
-      {success && (
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        >
-          <Alert
-            // onClose={handleClose}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            Data Successfully Submitted!
-          </Alert>
-        </Snackbar>
-      )}
-      {failed && (
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        >
-          <Alert
-            // onClose={handleClose}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
-            Wrong try again!
-          </Alert>
-        </Snackbar>
       )}
     </>
   );

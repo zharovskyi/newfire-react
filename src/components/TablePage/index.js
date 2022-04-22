@@ -7,6 +7,8 @@ import IconifyButtonIcon from "../../shared/IconifyButtonIcon";
 import { useSelector } from "react-redux";
 import { loadDataSearchAction } from "./redux/actions";
 import ModalContainer from "../../shared/Modal/Modal";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -59,8 +61,10 @@ const TablePage = () => {
             </div>
           )}
           <ModalContainer />
+          
         </div>
         <Table />
+        <ToastContainer autoClose={2000} />
       </div>
     </>
   );

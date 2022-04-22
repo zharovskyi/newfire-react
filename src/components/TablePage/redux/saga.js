@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 import { takeEvery, takeLatest, put, call, select } from "redux-saga/effects";
 import {
   LOAD_DATA,
@@ -9,9 +10,9 @@ import {
   ROWS_PER_PAGE,
   PUT_DATA,
   showModalType,
-  receivedFormType,
-  failedFormType,
 } from "./actions";
+import { toast } from "react-toastify";
+
 function addZero(i) {
   if (i < 10) {
     i = "0" + i;
@@ -56,8 +57,7 @@ function putFormData(data) {
       "Content-Type": "application/json; charset=UTF-8",
     },
   }).catch((error) => {
-    console.log("ERROR", "error");
-    error;
+    console.log("ERROR", error);
   });
 }
 function* workerSagaBeerItems() {
@@ -108,16 +108,18 @@ function* workerSagaBeerItems() {
   }
 }
 function* workerSagaPutFormData(action) {
-  const datas = action.payload;
+  const { data: datas, onSucessCalback } = action.payload;
   try {
     yield call(putFormData, datas);
-    yield put(showModalType());
-    yield put(receivedFormType(true));
-    // throw new Error();
-    /// зачищати тут
+    yield put(showModalType(false));
+    yield call(workerSagaBeerItems);
+    if (onSucessCalback) {
+      onSucessCalback();
+    }
+    toast.success("Thank you for filling out your information!");
   } catch (error) {
-    console.log("workerSaga ", "error");
-    yield put(failedFormType(true));
+    console.log("workerSaga ", error);
+    toast.error("Something went wrong.");
   }
 }
 export function* watchLoadTableDataSaga() {

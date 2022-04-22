@@ -8,9 +8,6 @@ export const CHANGE_PAGE = "CHANGE_PAGE";
 export const ROWS_PER_PAGE = "ROWS_PER_PAGE";
 export const PUT_DATA = "PUT_DATA";
 export const SHOW_MODAL = "SHOW_MODAL";
-export const FORM_RECEIVED = "FORM_RECEIVED";
-export const FORM_FAILED = "FORM_FAILED";
-// export const RESET_FORM = "RESET_FORM";
 
 export const loadDataAction = () => ({ type: LOAD_DATA });
 export const loadDataSuccesAction = (payload) => ({
@@ -49,15 +46,3 @@ export const sendPutData = (payload) => ({
 export const showModalType = () => ({
   type: SHOW_MODAL,
 });
-
-export const receivedFormType = (payload) => ({
-  type: FORM_RECEIVED,
-  payload,
-});
-export const failedFormType = (payload) => ({
-  type: FORM_FAILED,
-  payload
-});
-// export const resetFormType = () => ({
-//   type: RESET_FORM,
-// });
