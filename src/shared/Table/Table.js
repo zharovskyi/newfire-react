@@ -82,7 +82,7 @@ export default function EnhancedTable() {
     }),
     shallowEqual,
   );
-  const total = beerData.total;
+  const total = +beerData.total;
   const rows = beerData.data;
   const dispatch = useDispatch();
 

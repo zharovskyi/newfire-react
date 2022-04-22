@@ -1,39 +1,23 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import styles from "./Modal.module.css";
-import { Alert, Button, Snackbar } from "@mui/material";
-import IconifyButtonIcon from "../IconifyButtonIcon";
+import styles from "./Modal.module.scss";
+import { Button } from "@mui/material";
 import {
-  clearTableReducerAction,
   sendPutData,
   showModalType,
 } from "../../components/TablePage/redux/actions";
 import ModalItem from "./ModalItem";
 
-const barStyles = {
-  display: "flex",
-  alignItems: "flex-end",
-  marginBottom: 20,
-};
 const redText = {
   color: "red",
 };
-const ModalContainer = () => {
+const ModalContainer = ({ headlineText }) => {
   const dispatch = useDispatch();
-
-  const { isModalOpen } = useSelector(({ tableReducer: { isModalOpen } }) => ({
-    isModalOpen,
-  }));
-
-  const toggleModal = () => {
-    dispatch(showModalType());
-  };
 
   const schema = yup.object().shape({
     name: yup
@@ -63,108 +47,76 @@ const ModalContainer = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const onSucessCleanFormCalback = () => {
+    reset();
+  };
   const onSubmit = (data, e) => {
     e.preventDefault();
-    dispatch(
-      sendPutData({
-        data,
-        onSucessCalback: () => {
-          reset();
-          // toggleModal(false);
-        },
-      }),
-    );
+    dispatch(sendPutData({ data, onSucessCleanFormCalback }));
   };
 
-  // useEffect(() => {
-  //   dispatch(loadDataAction());
-  // }, [success]);
-
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
+  const toggleModal = () => {
+    dispatch(showModalType());
   };
   return (
     <>
-      <Button
-        variant="contained"
-        className={styles.btnAdd}
-        startIcon={<IconifyButtonIcon icon="eva:plus-fill" />}
-        onClick={toggleModal}
-      >
-        Add new recipe
-      </Button>
-      {isModalOpen && (
-        <ModalItem onClose={toggleModal}>
-          <Box
-            component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: "50ch" },
-            }}
-            onSubmit={handleSubmit(onSubmit)}
-            className={styles.content}
-            id="FormId"
-          >
-            <TextField
-              required
-              id="outlined-name"
-              label="Name of beer"
-              name="name"
-              {...register("name")}
-            />
-            <br />
-            <span style={redText}>{errors.name && errors.name.message}</span>
-            <TextField
-              // required
-              id="outlined-type"
-              label="Name of beer"
-              name="type"
-              {...register("type")}
-            />
-            <TextField
-              // required
-              id="outlined-alcohol"
-              label="Alcohol"
-              name="alcohol"
-              type="number"
-              {...register("alcohol")}
-            />
-            <TextField
-              // required
-              id="outlined-bittenesrs"
-              label="Bittenesrs"
-              name="bittenesrs"
-              type="number"
-              {...register("bittenesrs")}
-            />
-            <TextField
-              // required
-              id="outlined-capacity"
-              label="Capacity"
-              name="capacity"
-              type="number"
-              {...register("capacity")}
-            />
-            <br />
-            <Button
-              variant="contained"
-              className={styles.btn}
-              type="submit"
-            >
-              Submit
-            </Button>
-          </Box>
-        </ModalItem>
-      )}
+      <ModalItem onClose={toggleModal}>
+        <Box
+          component="form"
+          sx={{
+            "& .MuiTextField-root": { m: 1, width: "50ch" },
+          }}
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles.content}
+          id="FormId"
+        >
+          {headlineText && <h2 style={{ margin: "8px" }}>{headlineText}</h2>}
+          <TextField
+            required
+            id="outlined-name"
+            label="Name of beer"
+            name="name"
+            {...register("name")}
+          />
+          <br />
+          <span style={redText}>{errors.name && errors.name.message}</span>
+          <TextField
+            // required
+            id="outlined-type"
+            label="Name of beer"
+            name="type"
+            {...register("type")}
+          />
+          <TextField
+            // required
+            id="outlined-alcohol"
+            label="Alcohol"
+            name="alcohol"
+            type="number"
+            {...register("alcohol")}
+          />
+          <TextField
+            // required
+            id="outlined-bittenesrs"
+            label="Bittenesrs"
+            name="bittenesrs"
+            type="number"
+            {...register("bittenesrs")}
+          />
+          <TextField
+            // required
+            id="outlined-capacity"
+            label="Capacity"
+            name="capacity"
+            type="number"
+            {...register("capacity")}
+          />
+          <br />
+          <Button variant="contained" className={styles.btn} type="submit">
+            Submit
+          </Button>
+        </Box>
+      </ModalItem>
     </>
   );
 };
