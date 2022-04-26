@@ -10,6 +10,11 @@ import {
   ROWS_PER_PAGE,
   PUT_DATA,
   showModalType,
+  EDIT_ROW,
+  sendPutData,
+  loadDataAction,
+  editRowDataType,
+  PUT_EDITOR_DATA,
 } from "./actions";
 import { toast } from "react-toastify";
 
@@ -60,6 +65,26 @@ function putFormData(data) {
     console.log("ERROR", error);
   });
 }
+
+async function getBeerItemByID(id) {
+  const request = await fetch(`${my_url}/${id}`);
+  const data = await request.json();
+  return data;
+}
+
+function putEditBeerItem(postId, postToUpdate) {
+  fetch(`${my_url}/${postId}`, {
+    method: "PATCH",
+    body: JSON.stringify(postToUpdate),
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  })
+    // .then((response) => response.json())
+    // .then((post) => console.log("postId PATCH", post))
+    .catch((error) => console.log("ERROR" + error));
+}
+
 function* workerSagaBeerItems() {
   const selectSearchQuery = (state) => state.tableReducer.search;
   const orderType = (state) => state.tableReducer.order;
@@ -108,18 +133,41 @@ function* workerSagaBeerItems() {
   }
 }
 function* workerSagaPutFormData(action) {
-  const { data: datas, onSucessCleanFormCalback } = action.payload;
   try {
-    yield call(putFormData, datas);
-    yield put(showModalType(false));
-    yield call(workerSagaBeerItems);
-    if (onSucessCleanFormCalback) {
-      onSucessCleanFormCalback();
+    if (action.type === PUT_DATA) {
+      const { data, onSucessCleanFormCalback } = action.payload;
+
+      yield call(putFormData, data);
+      yield put(showModalType(false));
+      yield call(workerSagaBeerItems);
+      if (onSucessCleanFormCalback) {
+        onSucessCleanFormCalback();
+      }
+      toast.success("Thank you for filling out your information!");
+    } else {
+      const { formData, onSucessCleanFormCalback } = action.payload;
+      yield call(putEditBeerItem, formData.id, formData);
+      yield put(showModalType(false));
+      yield call(workerSagaBeerItems);
+      if (onSucessCleanFormCalback) {
+        onSucessCleanFormCalback();
+      }
+      toast.success("Thank you for filling out your information!");
     }
-    toast.success("Thank you for filling out your information!");
   } catch (error) {
     console.log("workerSaga ", error);
     toast.error("Something went wrong.");
+  }
+}
+
+function* workerGetBeerItemByID(action) {
+  const id = action.payload;
+  try {
+    const dataForm = yield call(getBeerItemByID, id);
+    yield put(showModalType());
+    yield put(editRowDataType(dataForm));
+  } catch (error) {
+    console.log("workerSaga ", error);
   }
 }
 export function* watchLoadTableDataSaga() {
@@ -127,5 +175,6 @@ export function* watchLoadTableDataSaga() {
     [LOAD_DATA, SEARCH_LOAD_DATA, SORT_LOAD_TYPE, ROWS_PER_PAGE, CHANGE_PAGE],
     workerSagaBeerItems,
   );
-  yield takeLatest([PUT_DATA], workerSagaPutFormData);
+  yield takeLatest([PUT_DATA, PUT_EDITOR_DATA], workerSagaPutFormData);
+  yield takeEvery([EDIT_ROW], workerGetBeerItemByID);
 }

@@ -48,28 +48,27 @@ const EnhancedTableToolbar = ({ numSelected }) => {
 const headCells = [
   {
     id: "name",
-    numeric: false,
     label: "Name of recipe",
   },
   {
     id: "type",
-    numeric: true,
     label: "Type of beer",
   },
   {
     id: "alcohol",
-    numeric: true,
     label: "Alcohol",
   },
   {
     id: "bittenesrs ",
-    numeric: true,
     label: "Bittenesrs",
   },
   {
     id: "capacity",
-    numeric: true,
     label: "Capacity",
+  },
+  {
+    id: "edit",
+    label: "Edit",
   },
 ];
 export default function EnhancedTable() {
@@ -95,8 +94,6 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar />
-
         {loading ? (
           <>
             <div className={styles.loader}>
@@ -113,6 +110,7 @@ export default function EnhancedTable() {
                 <TableBodyList rows={rows} />
               </Table>
             </TableContainer>
+
             {beerData.data?.length > 1 && (
               <TablePagination
                 rowsPerPageOptions={[2, 4, 6]}

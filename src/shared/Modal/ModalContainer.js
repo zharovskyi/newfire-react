@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Controller, useController, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
@@ -8,7 +8,9 @@ import TextField from "@mui/material/TextField";
 import styles from "./Modal.module.scss";
 import { Button } from "@mui/material";
 import {
+  changeInputDataType,
   sendPutData,
+  sendPutEditorData,
   showModalType,
 } from "../../components/TablePage/redux/actions";
 import ModalItem from "./ModalItem";
@@ -16,27 +18,20 @@ import ModalItem from "./ModalItem";
 const redText = {
   color: "red",
 };
-const ModalContainer = ({ headlineText }) => {
+const ModalContainer = () => {
   const dispatch = useDispatch();
+  const formData = useSelector((state) => state.tableReducer.formData);
+  const isEditModalType = useSelector(
+    (state) => state.tableReducer.isEditModalType,
+  );
+  const headlineText = "Please, add the necessary information";
 
   const schema = yup.object().shape({
     name: yup
       .string()
       .required("First name is required")
-      .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ")
+      .matches(/^[aA-zZ '-\s]+$/, "Only alphabets are allowed for this field ")
       .min(3, "Min length 3 letters"),
-    // type: yup
-    //   .string()
-    //   .required("First name is required")
-    //   .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ")
-    //   .min(3, "Min length 3 letters")
-    //   .max(4, "Max length 4 letters"),
-    // tel: yup.string().matches(/^\+?3?8?(0\d{9})$/, "Phone number is not valid"),
-    // experience: yup.string().typeError("Value must be a number"),
-    // age: yup.string().required("Age is required"),
-    // conditions: yup.boolean().oneOf([true], "Conditions is required"),
-    // password: yup.string().min(4).max(15).required(),
-    // confirmPassword: yup.string().oneOf([yup.ref("password"), null]),
   });
 
   const {
@@ -50,13 +45,26 @@ const ModalContainer = ({ headlineText }) => {
   const onSucessCleanFormCalback = () => {
     reset();
   };
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    dispatch(sendPutData({ data, onSucessCleanFormCalback }));
-  };
 
   const toggleModal = () => {
     dispatch(showModalType());
+  };
+
+  const handleChange = (e) => {
+    dispatch(
+      changeInputDataType({ ...formData, [e.target.name]: e.target.value }),
+    );
+  };
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+
+    if (isEditModalType) {
+      return dispatch(
+        sendPutEditorData({ formData, onSucessCleanFormCalback }),
+      );
+    }
+    return dispatch(sendPutData({ data, onSucessCleanFormCalback }));
   };
   return (
     <>
@@ -71,21 +79,26 @@ const ModalContainer = ({ headlineText }) => {
           id="FormId"
         >
           {headlineText && <h2 style={{ margin: "8px" }}>{headlineText}</h2>}
+
           <TextField
             required
             id="outlined-name"
             label="Name of beer"
             name="name"
+            value={isEditModalType ? formData?.name : null}
             {...register("name")}
+            onChange={handleChange}
           />
           <br />
           <span style={redText}>{errors.name && errors.name.message}</span>
           <TextField
             // required
             id="outlined-type"
-            label="Name of beer"
+            label="Type of beer"
             name="type"
+            value={isEditModalType ? formData?.type : null}
             {...register("type")}
+            onChange={handleChange}
           />
           <TextField
             // required
@@ -93,7 +106,9 @@ const ModalContainer = ({ headlineText }) => {
             label="Alcohol"
             name="alcohol"
             type="number"
+            value={isEditModalType ? formData?.alcohol : null}
             {...register("alcohol")}
+            onChange={handleChange}
           />
           <TextField
             // required
@@ -101,7 +116,9 @@ const ModalContainer = ({ headlineText }) => {
             label="Bittenesrs"
             name="bittenesrs"
             type="number"
+            value={isEditModalType ? formData?.bittenesrs : null}
             {...register("bittenesrs")}
+            onChange={handleChange}
           />
           <TextField
             // required
@@ -109,7 +126,9 @@ const ModalContainer = ({ headlineText }) => {
             label="Capacity"
             name="capacity"
             type="number"
+            value={isEditModalType ? formData?.capacity : null}
             {...register("capacity")}
+            onChange={handleChange}
           />
           <br />
           <Button variant="contained" className={styles.btn} type="submit">
