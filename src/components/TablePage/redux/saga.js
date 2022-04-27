@@ -1,5 +1,14 @@
 /* eslint-disable no-unreachable */
-import { takeEvery, takeLatest, put, call, select } from "redux-saga/effects";
+import {
+  takeEvery,
+  takeLatest,
+  put,
+  call,
+  select,
+  delay,
+  fork,
+  spawn,
+} from "redux-saga/effects";
 import {
   LOAD_DATA,
   loadDataSuccesAction,
@@ -11,8 +20,6 @@ import {
   PUT_DATA,
   showModalType,
   EDIT_ROW,
-  sendPutData,
-  loadDataAction,
   editRowDataType,
   PUT_EDITOR_DATA,
 } from "./actions";
@@ -51,8 +58,24 @@ async function getBeerItems(parameters) {
   let total = request.headers.get("X-Total-Count");
   const data = await request.json();
   const res = { data, total };
+  console.log("res", res);
   return res;
 }
+
+// function getBeerItems(parameters) {
+//   let total;
+//   fetch(generateQueryParams(my_url, parameters))
+//     .then((response) => {
+//       total = response.headers.get("X-Total-Count");
+//       return response.json();
+//     })
+//     .then((data) => {
+//       const res = { data, total };
+//       console.log("res", res);
+//       return res;
+//     })
+//     .catch((error) => console.log(error));
+// }
 
 function putFormData(data) {
   return fetch(my_url, {
@@ -113,7 +136,9 @@ function* workerSagaBeerItems() {
   parameters._limit = rowsPerPage;
   parameters._page = page + 1;
   try {
+    yield delay(1000);
     const data = yield call(getBeerItems, parameters);
+    console.log("data saga ", data);
     const currentTime = new Date();
     const hours = currentTime.getHours();
     const minutes = addZero(currentTime.getMinutes());
@@ -132,6 +157,7 @@ function* workerSagaBeerItems() {
     yield put(loadDataFailureAction(error));
   }
 }
+
 function* workerSagaPutFormData(action) {
   try {
     if (action.type === PUT_DATA) {
@@ -145,8 +171,10 @@ function* workerSagaPutFormData(action) {
       }
       toast.success("Thank you for filling out your information!");
     } else {
-      const { formData, onSucessCleanFormCalback } = action.payload;
-      yield call(putEditBeerItem, formData.id, formData);
+      const { data, onSucessCleanFormCalback } = action.payload;
+      const idItem = (state) => state.tableReducer.id;
+      const id = yield select(idItem);
+      yield call(putEditBeerItem, id, data);
       yield put(showModalType(false));
       yield call(workerSagaBeerItems);
       if (onSucessCleanFormCalback) {
@@ -164,8 +192,9 @@ function* workerGetBeerItemByID(action) {
   const id = action.payload;
   try {
     const dataForm = yield call(getBeerItemByID, id);
-    yield put(showModalType());
+
     yield put(editRowDataType(dataForm));
+    yield put(showModalType());
   } catch (error) {
     console.log("workerSaga ", error);
   }

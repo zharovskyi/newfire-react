@@ -18,33 +18,34 @@ import EnhancedTableHead from "./TableHead";
 import TableBodyList from "./TableBody";
 import { CircularProgress, Container, TablePagination } from "@mui/material";
 import styles from "./Table.module.scss";
+import LoaderSpinner from "../LoaderSpinner";
 
-const EnhancedTableToolbar = ({ numSelected }) => {
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity,
-            ),
-        }),
-      }}
-    >
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-      >
-        Information of beer
-      </Typography>
-    </Toolbar>
-  );
-};
+// const EnhancedTableToolbar = ({ numSelected }) => {
+//   return (
+//     <Toolbar
+//       sx={{
+//         pl: { sm: 2 },
+//         pr: { xs: 1, sm: 1 },
+//         ...(numSelected > 0 && {
+//           bgcolor: (theme) =>
+//             alpha(
+//               theme.palette.primary.main,
+//               theme.palette.action.activatedOpacity,
+//             ),
+//         }),
+//       }}
+//     >
+//       <Typography
+//         sx={{ flex: "1 1 100%" }}
+//         variant="h6"
+//         id="tableTitle"
+//         component="div"
+//       >
+//         Information of beer
+//       </Typography>
+//     </Toolbar>
+//   );
+// };
 const headCells = [
   {
     id: "name",
@@ -81,8 +82,8 @@ export default function EnhancedTable() {
     }),
     shallowEqual,
   );
-  const total = +beerData.total;
-  const rows = beerData.data;
+  const total = +beerData?.total;
+  const rows = beerData?.data;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -95,13 +96,7 @@ export default function EnhancedTable() {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         {loading ? (
-          <>
-            <div className={styles.loader}>
-              <Container>
-                <CircularProgress disableShrink />
-              </Container>
-            </div>
-          </>
+          <LoaderSpinner />
         ) : (
           <>
             <TableContainer>
@@ -111,7 +106,7 @@ export default function EnhancedTable() {
               </Table>
             </TableContainer>
 
-            {beerData.data?.length > 1 && (
+            {beerData?.data?.length > 1 && (
               <TablePagination
                 rowsPerPageOptions={[2, 4, 6]}
                 component="div"

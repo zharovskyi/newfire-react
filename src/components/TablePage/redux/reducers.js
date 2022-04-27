@@ -11,7 +11,7 @@ import {
   SHOW_MODAL,
   SORT_LOAD_TYPE,
   EDIT_ROW_DATA,
-  CHANGE_INPUT_DATA,
+  // CHANGE_INPUT_DATA,
   PUT_EDITOR_DATA,
 } from "./actions";
 
@@ -98,13 +98,14 @@ export default function tableReducer(state = initialState, action) {
       return {
         ...state,
         isModalOpen: !state.isModalOpen,
-        isEditModalType: false,
       };
     }
     case EDIT_ROW: {
       return {
         ...state,
         id: action.payload,
+        isEditModalType: true,
+        loading: true,
       };
     }
     case EDIT_ROW_DATA: {
@@ -114,12 +115,7 @@ export default function tableReducer(state = initialState, action) {
         isEditModalType: true,
       };
     }
-    case CHANGE_INPUT_DATA: {
-      return {
-        ...state,
-        formData: action.payload,
-      };
-    }
+
     case PUT_EDITOR_DATA: {
       return {
         ...state,

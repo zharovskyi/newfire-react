@@ -59,10 +59,7 @@ export const editRowDataType = (payload) => ({
   type: EDIT_ROW_DATA,
   payload,
 });
-export const changeInputDataType = (payload) => ({
-  type: CHANGE_INPUT_DATA,
-  payload,
-});
+
 export const sendPutEditorData = (payload) => ({
   type: PUT_EDITOR_DATA,
   payload,
