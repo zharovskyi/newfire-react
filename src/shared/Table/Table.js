@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
   changePageAction,
@@ -7,69 +7,39 @@ import {
   loadDataAction,
 } from "../../components/TablePage/redux/actions";
 
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import EnhancedTableHead from "./TableHead";
 import TableBodyList from "./TableBody";
-import { CircularProgress, Container, TablePagination } from "@mui/material";
-import styles from "./Table.module.scss";
+import { TablePagination } from "@mui/material";
+import LoaderSpinner from "../LoaderSpinner";
 
-const EnhancedTableToolbar = ({ numSelected }) => {
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity,
-            ),
-        }),
-      }}
-    >
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-      >
-        Information of beer
-      </Typography>
-    </Toolbar>
-  );
-};
 const headCells = [
   {
     id: "name",
-    numeric: false,
     label: "Name of recipe",
   },
   {
     id: "type",
-    numeric: true,
     label: "Type of beer",
   },
   {
     id: "alcohol",
-    numeric: true,
     label: "Alcohol",
   },
   {
     id: "bittenesrs ",
-    numeric: true,
     label: "Bittenesrs",
   },
   {
     id: "capacity",
-    numeric: true,
     label: "Capacity",
+  },
+  {
+    id: "edit",
+    label: "Edit",
   },
 ];
 export default function EnhancedTable() {
@@ -82,8 +52,8 @@ export default function EnhancedTable() {
     }),
     shallowEqual,
   );
-  const total = +beerData.total;
-  const rows = beerData.data;
+  const total = +beerData?.total;
+  const rows = beerData?.data;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -95,16 +65,8 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar />
-
         {loading ? (
-          <>
-            <div className={styles.loader}>
-              <Container>
-                <CircularProgress disableShrink />
-              </Container>
-            </div>
-          </>
+          <LoaderSpinner />
         ) : (
           <>
             <TableContainer>
@@ -113,7 +75,8 @@ export default function EnhancedTable() {
                 <TableBodyList rows={rows} />
               </Table>
             </TableContainer>
-            {beerData.data?.length > 1 && (
+
+            {beerData?.data?.length > 1 && (
               <TablePagination
                 rowsPerPageOptions={[2, 4, 6]}
                 component="div"
