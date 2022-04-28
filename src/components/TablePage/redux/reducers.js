@@ -27,7 +27,13 @@ const initialState = {
   limit: 2,
   isModalOpen: false,
   isEditModalType: false,
-  formData: [],
+  formData: {
+    name: "",
+    type: "",
+    alcohol: 0,
+    bittenesrs: 0,
+    capacity: 0,
+  },
 };
 
 export default function tableReducer(state = initialState, action) {
@@ -90,7 +96,7 @@ export default function tableReducer(state = initialState, action) {
     case PUT_DATA: {
       return {
         ...state,
-        formData: action.payload,
+        formData: [],
         page: 0,
       };
     }
@@ -98,14 +104,13 @@ export default function tableReducer(state = initialState, action) {
       return {
         ...state,
         isModalOpen: !state.isModalOpen,
-        isLoaderForm: false,
       };
     }
     case EDIT_ROW: {
       return {
         ...state,
         id: action.payload,
-
+        isEditModalType: true,
       };
     }
     case EDIT_ROW_DATA: {
@@ -113,14 +118,14 @@ export default function tableReducer(state = initialState, action) {
         ...state,
         formData: action.payload,
         isEditModalType: true,
-
       };
     }
 
     case PUT_EDITOR_DATA: {
       return {
         ...state,
-        formData: action.payload,
+        formData: [],
+        isEditModalType: false,
       };
     }
     default:
