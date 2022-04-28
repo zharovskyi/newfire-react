@@ -98,14 +98,14 @@ export default function tableReducer(state = initialState, action) {
       return {
         ...state,
         isModalOpen: !state.isModalOpen,
+        isLoaderForm: false,
       };
     }
     case EDIT_ROW: {
       return {
         ...state,
         id: action.payload,
-        isEditModalType: true,
-        loading: true,
+
       };
     }
     case EDIT_ROW_DATA: {
@@ -113,6 +113,7 @@ export default function tableReducer(state = initialState, action) {
         ...state,
         formData: action.payload,
         isEditModalType: true,
+
       };
     }
 

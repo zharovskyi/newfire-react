@@ -13,7 +13,6 @@ export const EDIT_ROW_DATA = "EDIT_ROW_DATA";
 export const CHANGE_INPUT_DATA = "CHANGE_INPUT_DATA";
 export const PUT_EDITOR_DATA = "PUT_EDITOR_DATA";
 
-
 export const loadDataAction = () => ({ type: LOAD_DATA });
 export const loadDataSuccesAction = (payload) => ({
   type: LOAD_DATA_SUCCESS,

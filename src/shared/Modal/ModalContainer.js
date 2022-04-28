@@ -1,5 +1,5 @@
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Controller, useController, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
@@ -8,38 +8,25 @@ import TextField from "@mui/material/TextField";
 import styles from "./Modal.module.scss";
 import { Button } from "@mui/material";
 import {
-  clearTableReducerAction,
-  loadDataAction,
-  // changeInputDataType,
   sendPutData,
   sendPutEditorData,
   showModalType,
 } from "../../components/TablePage/redux/actions";
 import ModalItem from "./ModalItem";
-import LoaderSpinner from "../LoaderSpinner";
-import { useEffect } from "react";
 
 const redText = {
   color: "red",
 };
 const ModalContainer = () => {
   const dispatch = useDispatch();
-  const { formData, isEditModalType, loading } = useSelector(
-    ({ tableReducer: { formData, isEditModalType, loading } }) => ({
-      loading,
+  const { formData, isEditModalType } = useSelector(
+    ({ tableReducer: { formData, isEditModalType } }) => ({
       formData,
       isEditModalType,
     }),
     shallowEqual,
   );
   const headlineText = "Please, add the necessary information";
-
-  // useEffect(() => {
-  //   dispatch(loadDataAction());
-  //   return () => {
-  //     dispatch(clearTableReducerAction());
-  //   };
-  // }, [dispatch]);
 
   const schema = yup.object().shape({
     name: yup
@@ -56,7 +43,7 @@ const ModalContainer = () => {
     register,
     handleSubmit,
     reset,
-    formState: { isDirty, isSubmitSuccessful, isSubmitted },
+    formState: { isDirty },
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -78,6 +65,7 @@ const ModalContainer = () => {
     }
     return dispatch(sendPutData({ data, onSucessCleanFormCalback }));
   };
+
   return (
     <>
       <ModalItem onClose={toggleModal}>
@@ -92,9 +80,6 @@ const ModalContainer = () => {
         >
           {headlineText && <h2 style={{ margin: "8px" }}>{headlineText}</h2>}
 
-          {/* {loading ? (
-            <LoaderSpinner />
-          ) : ( */}
           <>
             <TextField
               required
@@ -151,7 +136,6 @@ const ModalContainer = () => {
               Submit
             </Button>
           </>
-          {/* )} */}
         </Box>
       </ModalItem>
     </>

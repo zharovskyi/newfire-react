@@ -6,8 +6,6 @@ import {
   call,
   select,
   delay,
-  fork,
-  spawn,
 } from "redux-saga/effects";
 import {
   LOAD_DATA,
@@ -33,7 +31,8 @@ function addZero(i) {
 }
 
 const my_url = new URL("http://localhost:3001/rows");
-
+// const my_url = new URL(`${process.env.BASE_URL}/rows`);
+// console.log("process.env.BASE_URL", process.env.BASE_URL);
 const parameters = {
   q: "",
   _sort: "",
@@ -53,29 +52,21 @@ function generateQueryParams(url, queryParams) {
   return urlWithParams + params;
 }
 
-async function getBeerItems(parameters) {
-  const request = await fetch(generateQueryParams(my_url, parameters));
-  let total = request.headers.get("X-Total-Count");
-  const data = await request.json();
-  const res = { data, total };
-  console.log("res", res);
-  return res;
+function getBeerItems(parameters) {
+  let total;
+  return fetch(generateQueryParams(my_url, parameters))
+    .then((response) => {
+      total = response.headers.get("X-Total-Count");
+      return response.json();
+    })
+    .then((data) => {
+      const res = { data, total };
+      return res;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
-
-// function getBeerItems(parameters) {
-//   let total;
-//   fetch(generateQueryParams(my_url, parameters))
-//     .then((response) => {
-//       total = response.headers.get("X-Total-Count");
-//       return response.json();
-//     })
-//     .then((data) => {
-//       const res = { data, total };
-//       console.log("res", res);
-//       return res;
-//     })
-//     .catch((error) => console.log(error));
-// }
 
 function putFormData(data) {
   return fetch(my_url, {
@@ -102,10 +93,7 @@ function putEditBeerItem(postId, postToUpdate) {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
     },
-  })
-    // .then((response) => response.json())
-    // .then((post) => console.log("postId PATCH", post))
-    .catch((error) => console.log("ERROR" + error));
+  }).catch((error) => console.log("ERROR" + error));
 }
 
 function* workerSagaBeerItems() {
@@ -138,7 +126,6 @@ function* workerSagaBeerItems() {
   try {
     yield delay(1000);
     const data = yield call(getBeerItems, parameters);
-    console.log("data saga ", data);
     const currentTime = new Date();
     const hours = currentTime.getHours();
     const minutes = addZero(currentTime.getMinutes());
@@ -162,7 +149,6 @@ function* workerSagaPutFormData(action) {
   try {
     if (action.type === PUT_DATA) {
       const { data, onSucessCleanFormCalback } = action.payload;
-
       yield call(putFormData, data);
       yield put(showModalType(false));
       yield call(workerSagaBeerItems);
