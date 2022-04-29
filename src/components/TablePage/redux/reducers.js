@@ -11,7 +11,6 @@ import {
   SHOW_MODAL,
   SORT_LOAD_TYPE,
   EDIT_ROW_DATA,
-  // CHANGE_INPUT_DATA,
   PUT_EDITOR_DATA,
 } from "./actions";
 

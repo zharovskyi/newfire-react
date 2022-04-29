@@ -8,13 +8,11 @@ import TextField from "@mui/material/TextField";
 import styles from "./Modal.module.scss";
 import { Button } from "@mui/material";
 import {
-  clearTableReducerAction,
   sendPutData,
   sendPutEditorData,
   showModalType,
 } from "../../components/TablePage/redux/actions";
 import ModalItem from "./ModalItem";
-import { useCallback } from "react";
 
 const redText = {
   color: "red",
@@ -51,9 +49,10 @@ const ModalContainer = () => {
     defaultValues: formData,
     reValidateMode: "onChange",
   });
-  const onSucessCleanFormCalback = useCallback(() => {
+  const onSucessCleanFormCalback = () => {
+    console.log("dddd");
     reset();
-  });
+  };
 
   const toggleModal = () => {
     dispatch(showModalType());
@@ -134,6 +133,21 @@ const ModalContainer = () => {
               type="submit"
             >
               Submit
+            </Button>
+            <Button
+              variant="outlined"
+              className={styles.btn}
+              onClick={() => {
+                reset({
+                  name: "",
+                  type: "",
+                  alcohol: 0,
+                  bittenesrs: 0,
+                  capacity: 0,
+                });
+              }}
+            >
+              Reset
             </Button>
           </>
         </Box>
