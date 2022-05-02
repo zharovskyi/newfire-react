@@ -4,15 +4,15 @@
       "id": 1,
       "name": "Silver Dollar Porter",
       "type": "American Lager Strong",
-      "alcohol": 4.6,
-      "bittenesrs": 22,
+      "alcohol": 6,
+      "bittenesrs": 20,
       "capacity": 22
     },
     {
       "id": 2,
-      "name": "Young's Special London Aleon",
+      "name": "Young's Special London Aleons",
       "type": "Strong Bitter",
-      "alcohol": 5.2,
+      "alcohol": 5.25,
       "bittenesrs": 30.1,
       "capacity": 20.5
     },

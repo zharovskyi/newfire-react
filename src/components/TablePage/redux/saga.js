@@ -30,9 +30,7 @@ function addZero(i) {
   return i;
 }
 
-const my_url = new URL("http://localhost:3001/rows");
-// const my_url = new URL(`${process.env.BASE_URL}/rows`);
-// console.log("process.env.BASE_URL", process.env.BASE_URL);
+const my_url = new URL(`${process.env.REACT_APP_BASE_URL}/rows`);
 const parameters = {
   q: "",
   _sort: "",
@@ -87,7 +85,7 @@ async function getBeerItemByID(id) {
 }
 
 function putEditBeerItem(postId, postToUpdate) {
-  fetch(`${my_url}/${postId}`, {
+  return fetch(`${my_url}/${postId}`, {
     method: "PATCH",
     body: JSON.stringify(postToUpdate),
     headers: {

@@ -43,7 +43,6 @@ const ModalContainer = () => {
     register,
     handleSubmit,
     reset,
-    formState: { isDirty },
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -51,6 +50,7 @@ const ModalContainer = () => {
     reValidateMode: "onChange",
   });
   const onSucessCleanFormCalback = () => {
+    console.log("dddd");
     reset();
   };
 
@@ -116,7 +116,6 @@ const ModalContainer = () => {
               {errors.bittenesrs && "Should be a number"}
             </span>
             <TextField
-              // required
               id="outlined-capacity"
               label="Capacity"
               name="capacity"
@@ -127,13 +126,23 @@ const ModalContainer = () => {
               {errors.capacity && "Should be a number"}
             </span>
             <br />
-            <Button
-              disabled={!isDirty}
-              variant="contained"
-              className={styles.btn}
-              type="submit"
-            >
+            <Button variant="contained" className={styles.btn} type="submit">
               Submit
+            </Button>
+            <Button
+              variant="outlined"
+              className={styles.btn}
+              onClick={() => {
+                reset({
+                  name: "",
+                  type: "",
+                  alcohol: 0,
+                  bittenesrs: 0,
+                  capacity: 0,
+                });
+              }}
+            >
+              Reset
             </Button>
           </>
         </Box>

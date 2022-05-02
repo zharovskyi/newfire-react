@@ -109,6 +109,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.16.7",
+    "babel-preset-env": "^1.7.0",
     "beautiful": "^0.0.1",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.4.0",
