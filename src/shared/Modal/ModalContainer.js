@@ -116,7 +116,6 @@ const ModalContainer = () => {
               {errors.bittenesrs && "Should be a number"}
             </span>
             <TextField
-              // required
               id="outlined-capacity"
               label="Capacity"
               name="capacity"
@@ -127,11 +126,7 @@ const ModalContainer = () => {
               {errors.capacity && "Should be a number"}
             </span>
             <br />
-            <Button
-              variant="contained"
-              className={styles.btn}
-              type="submit"
-            >
+            <Button variant="contained" className={styles.btn} type="submit">
               Submit
             </Button>
             <Button
