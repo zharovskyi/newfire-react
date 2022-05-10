@@ -31,7 +31,7 @@ const ModalContainer = () => {
   const schema = yup.object().shape({
     name: yup
       .string()
-      .required("First name is required")
+      .required("First name isDirty required")
       .matches(/^[aA-zZ '-\s]+$/, "Only alphabets are allowed for this field ")
       .min(3, "Min length 3 letters"),
     alcohol: yup.number().min(0.1),
@@ -43,14 +43,13 @@ const ModalContainer = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: formData,
     reValidateMode: "onChange",
   });
   const onSucessCleanFormCalback = () => {
-    console.log("dddd");
     reset();
   };
 
@@ -65,7 +64,6 @@ const ModalContainer = () => {
     }
     return dispatch(sendPutData({ data, onSucessCleanFormCalback }));
   };
-
   return (
     <>
       <ModalItem onClose={toggleModal}>
@@ -126,7 +124,12 @@ const ModalContainer = () => {
               {errors.capacity && "Should be a number"}
             </span>
             <br />
-            <Button variant="contained" className={styles.btn} type="submit">
+            <Button
+              variant="contained"
+              className={styles.btn}
+              type="submit"
+              disabled={!isDirty}
+            >
               Submit
             </Button>
             <Button
