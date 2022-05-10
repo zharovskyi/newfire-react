@@ -6,7 +6,7 @@
       "type": "American Lager Strong",
       "alcohol": 6,
       "bittenesrs": 20,
-      "capacity": 22
+      "capacity": 21
     },
     {
       "id": 2,
@@ -38,7 +38,7 @@
       "type": "Dark Lager",
       "alcohol": 5.5,
       "bittenesrs": 23.9,
-      "capacity": 20
+      "capacity": 27
     },
     {
       "id": 6,
@@ -47,6 +47,22 @@
       "alcohol": 4.5,
       "bittenesrs": 21.5,
       "capacity": 19
+    },
+    {
+      "capacity": 1,
+      "bittenesrs": 1444,
+      "alcohol": 1444,
+      "name": "asdsa",
+      "type": "asdasd",
+      "id": 7
+    },
+    {
+      "capacity": 454,
+      "bittenesrs": 454,
+      "alcohol": 454,
+      "name": "sdfsdfsd",
+      "type": "sdfsdf",
+      "id": 8
     }
   ]
 }
