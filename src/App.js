@@ -1,5 +1,5 @@
 import ThemeConfig from "./theme";
-import TablePage from "./components/TablePage";
+import TablePage from "./components/TablePage/index.tsx";
 import styles from "./App.module.scss";
 import {
   BrowserRouter as Router,
@@ -12,7 +12,7 @@ import Logo from "./shared/Logo";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import About from "./components/About";
-import Contacts from "./components/Contacts";
+import Contacts from "./components/Contacts/index.tsx";
 
 function App() {
   return (

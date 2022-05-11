@@ -2,7 +2,7 @@
   "rows": [
     {
       "id": 1,
-      "name": "Silver Dollar Porter",
+      "name": "Silver Dollar Porters",
       "type": "American Lager Strong",
       "alcohol": 6,
       "bittenesrs": 20,
@@ -49,20 +49,12 @@
       "capacity": 19
     },
     {
-      "capacity": 1,
-      "bittenesrs": 1444,
-      "alcohol": 1444,
-      "name": "asdsa",
+      "capacity": 44,
+      "bittenesrs": 44,
+      "alcohol": 4555,
+      "name": "sadsa",
       "type": "asdasd",
       "id": 7
-    },
-    {
-      "capacity": 454,
-      "bittenesrs": 454,
-      "alcohol": 454,
-      "name": "sdfsdfsd",
-      "type": "sdfsdf",
-      "id": 8
     }
   ]
 }

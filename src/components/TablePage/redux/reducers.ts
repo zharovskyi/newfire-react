@@ -14,7 +14,39 @@ import {
   PUT_EDITOR_DATA,
 } from "./actions";
 
-const initialState = {
+type BeerData = {
+  id: number,
+  name: string,
+  type: string,
+  alcohol: number,
+  bittenesrs: number,
+  capacity: number,
+};
+
+type FormData = {
+  name: string,
+  type: string,
+  alcohol: number,
+  bittenesrs: number,
+  capacity: number,
+}
+
+type InitialStateData = {
+  beerData: BeerData[],
+  loading:boolean,
+  error: string,
+  currentTime: string,
+  search: string,
+  sortBy: string,
+  order: string,
+  page: number,
+  limit: number,
+  isModalOpen: boolean,
+  isEditModalType: boolean,
+  formData: FormData,
+};
+
+const initialState: InitialStateData = {
   beerData: [],
   loading: false,
   error: "",
@@ -35,7 +67,7 @@ const initialState = {
   },
 };
 
-export default function tableReducer(state = initialState, action) {
+export default function tableReducer(state = initialState, action:any) {
   switch (action.type) {
     case LOAD_DATA: {
       return {
