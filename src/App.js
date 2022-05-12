@@ -1,3 +1,4 @@
+import React from "react";
 import ThemeConfig from "./theme";
 import TablePage from "./components/TablePage/index.tsx";
 import styles from "./App.module.scss";

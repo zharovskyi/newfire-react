@@ -15,12 +15,15 @@ import {
 } from "./actions";
 
 type BeerData = {
-  id: number,
-  name: string,
-  type: string,
-  alcohol: number,
-  bittenesrs: number,
-  capacity: number,
+  data: {
+    id: number,
+    name: string,
+    type: string,
+    alcohol: number,
+    bittenesrs: number,
+    capacity: number,
+  }[],
+  total: number,
 };
 
 type FormData = {
@@ -31,8 +34,8 @@ type FormData = {
   capacity: number,
 }
 
-type InitialStateData = {
-  beerData: BeerData[],
+export type InitialStateData = {
+  beerData: BeerData,
   loading:boolean,
   error: string,
   currentTime: string,
@@ -47,7 +50,10 @@ type InitialStateData = {
 };
 
 const initialState: InitialStateData = {
-  beerData: [],
+  beerData: {
+    data: [],
+    total:0
+  },
   loading: false,
   error: "",
   currentTime: "",

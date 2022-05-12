@@ -1,3 +1,4 @@
+import React from "react";
 import logo from "./images/amstel-beer-1.svg";
 
 const Logo = () => {

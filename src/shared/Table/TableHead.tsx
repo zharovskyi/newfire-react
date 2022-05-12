@@ -1,3 +1,4 @@
+import React from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -7,7 +8,15 @@ import { visuallyHidden } from "@mui/utils";
 import { useDispatch } from "react-redux";
 import { loadTypeSortAction } from "../../components/TablePage/redux/actions";
 
-export default function EnhancedTableHead({ headCells }) {
+type HeadCells = {
+  headCells:{
+    id:string,
+    label:string,
+  }[]
+}
+
+
+ const EnhancedTableHead:React.FC< HeadCells > = ({ headCells })=> {
   const dispatch = useDispatch();
   return (
     <TableHead>
@@ -28,3 +37,4 @@ export default function EnhancedTableHead({ headCells }) {
     </TableHead>
   );
 }
+export default EnhancedTableHead;

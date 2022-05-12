@@ -1,9 +1,11 @@
+import React from "react";
 import styles from "./index.module.scss";
 import { styled } from "@mui/material/styles";
 import { OutlinedInput, InputAdornment, Button } from "@mui/material";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { loadDataSearchAction, showModalType } from "./redux/actions";
 import IconifyButtonIcon from "../../shared/IconifyButtonIcon";
+import { currentTimes, searches } from "./selectorTablePage";
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -11,25 +13,29 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
   }),
-  "&.Mui-focused": { width: 320, boxShadow: theme.customShadows.z8 },
+  "&.Mui-focused": { width: 320},
   "& fieldset": {
     borderWidth: "1px !important",
-    borderColor: `${theme.palette.grey[500_32]} !important`,
+    // borderColor: `${theme.palette.grey[500_32]} !important`,
   },
 }));
 
 const FilterItems = () => {
-  const { currentTime, search } = useSelector(
-    ({ tableReducer: { currentTime, search } }) => ({
-      currentTime,
-      search,
-    }),
-    shallowEqual,
-  );
+  // const { search, currentTime } = useSelector(
+  //   {
+  //     search,
+  //     currentTime,
+  //   },
+  //   shallowEqual,
+  // );
+  //! Чи можна це оптимізувати
+  const currentTime = useSelector(currentTimes, shallowEqual);
+  const search = useSelector(searches, shallowEqual);
+
 
   const dispatch = useDispatch();
 
-  const handleChange = (e) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>):void => {
     dispatch(loadDataSearchAction(e.target.value));
   };
 
@@ -58,7 +64,7 @@ const FilterItems = () => {
         <Button
           variant="contained"
           className={styles.btnAdd}
-          startIcon={<IconifyButtonIcon icon="eva:plus-fill" />}
+          startIcon={<IconifyButtonIcon icon="eva:plus-fill" sx={{ color: "#fff" }} />}
           onClick={toggleModal}
         >
           Add new recipe

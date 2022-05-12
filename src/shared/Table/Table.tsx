@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
@@ -15,8 +16,11 @@ import EnhancedTableHead from "./TableHead";
 import TableBodyList from "./TableBody";
 import { TablePagination } from "@mui/material";
 import LoaderSpinner from "../LoaderSpinner";
+import { beerDatas, limits, loadings, pages } from "../../components/TablePage/selectorTablePage";
 
-const headCells = [
+
+
+const headCells= [
   {
     id: "name",
     label: "Name of recipe",
@@ -43,16 +47,23 @@ const headCells = [
   },
 ];
 export default function EnhancedTable() {
-  const { loading, beerData, limit, page } = useSelector(
-    ({ tableReducer: { loading, beerData, limit, page } }) => ({
-      loading,
-      beerData,
-      limit,
-      page,
-    }),
-    shallowEqual,
-  );
-  const total = +beerData?.total;
+  // const { loading, beerData, limit, page } = useSelector(
+  //   ({ tableReducer: { loading, beerData, limit, page } }) => ({
+  //     loading,
+  //     beerData,
+  //     limit,
+  //     page,
+  //   }),
+  //   shallowEqual,
+  // );
+  const loading = useSelector(loadings);
+  const beerData = useSelector(beerDatas,shallowEqual);
+  const limit = useSelector(limits);
+  const page = useSelector(pages);
+
+
+
+  const total = beerData?.total;
   const rows = beerData?.data;
   const dispatch = useDispatch();
 

@@ -6,7 +6,7 @@
       "type": "American Lager Strong",
       "alcohol": 6,
       "bittenesrs": 20,
-      "capacity": 21
+      "capacity": 22
     },
     {
       "id": 2,
@@ -49,12 +49,20 @@
       "capacity": 19
     },
     {
-      "capacity": 44,
-      "bittenesrs": 44,
-      "alcohol": 4555,
-      "name": "sadsa",
-      "type": "asdasd",
+      "capacity": 4,
+      "bittenesrs": 4,
+      "alcohol": 44,
+      "name": "Asasd",
+      "type": "asd",
       "id": 7
+    },
+    {
+      "capacity": 45,
+      "bittenesrs": 45,
+      "alcohol": 45,
+      "name": "qwewqe",
+      "type": "qweqw",
+      "id": 8
     }
   ]
 }

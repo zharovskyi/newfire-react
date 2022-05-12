@@ -6,11 +6,11 @@ import ModalContainer from "../../shared/Modal/ModalContainer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FilterItems from "./FilterItems";
-import {isModalOpens} from "./selectors";
+import {isModalOpens} from "./selectorTablePage";
 
 const TablePage = () => {
-  const isModalOpen:boolean = useSelector(isModalOpens);
-
+  const isModalOpen = useSelector(isModalOpens);
+  
   return (
     <>
       <div 

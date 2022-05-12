@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import {
   takeEvery,
   takeLatest,
@@ -39,14 +38,14 @@ const parameters = {
   _limit: 2,
 };
 function generateQueryParams(url, queryParams) {
-  let urlWithParams = `${url}?`;
+  const urlWithParams = `${url}?`;
   const res = {};
   Object.entries(queryParams).forEach(([name, value]) => {
     if (value && name) {
       res[name] = value;
     }
   });
-  let params = new URLSearchParams(res);
+  const params = new URLSearchParams(res);
   return urlWithParams + params;
 }
 
