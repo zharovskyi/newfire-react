@@ -3,17 +3,20 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 
-const modalRoot = document.querySelector("#modal-root");
-export default function ModalItem(props) {
-  const handleKeyDown = (e) => {
-    if (e.code === "Escape") {
+const modalRoot = document.querySelector("#modal-root") as HTMLElement;
+
+const ModalItem = (props: any) => {
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    if (event.code === "Escape") {
       props.onClose();
+      console.log("event.code ", event.code);
     }
   };
 
-  const handleBackdropClick = (event) => {
+  const handleBackdropClick = (event: React.SyntheticEvent) => {
     if (event.currentTarget === event.target) {
       props.onClose();
+      console.log("event.code handleBackdropClick", event.target);
     }
   };
   useEffect(() => {
@@ -27,12 +30,13 @@ export default function ModalItem(props) {
     <div
       className={styles.backdrop}
       role="button"
-      tabIndex="0"
+      tabIndex={0}
       onClick={handleBackdropClick}
-      onKeyPress={handleKeyDown}
+      onKeyPress={() => handleKeyDown}
     >
       {props.children}
     </div>,
     modalRoot,
   );
-}
+};
+export default ModalItem;

@@ -7,10 +7,22 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import ModalContainer from "../Modal/ModalContainer";
 import { editRowType } from "../../components/TablePage/redux/actions";
+import { isEditModalTypeSelector } from "../../components/TablePage/selectorTablePage";
 
-export default function TableBodyList({ rows }) {
+type Rows = {
+  rows: {
+    id: number;
+    name: string;
+    type: string;
+    alcohol: number;
+    bittenesrs: number;
+    capacity: number;
+  }[];
+};
+
+const TableBodyList = ({ rows }: Rows) => {
   const dispatch = useDispatch();
-  const isModalOpen = useSelector((state) => state.tableReducer.isModalOpen);
+  const isModalOpen = useSelector(isEditModalTypeSelector);
 
   return (
     <>
@@ -27,7 +39,6 @@ export default function TableBodyList({ rows }) {
                 <TableCell align="left">
                   <IconButton
                     aria-label="edit"
-                    id={row.id}
                     onClick={() => {
                       dispatch(editRowType(row.id));
                     }}
@@ -47,4 +58,6 @@ export default function TableBodyList({ rows }) {
       {isModalOpen && <ModalContainer />}
     </>
   );
-}
+};
+
+export default TableBodyList;

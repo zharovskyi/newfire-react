@@ -16,43 +16,43 @@ import {
 
 type BeerData = {
   data: {
-    id: number,
-    name: string,
-    type: string,
-    alcohol: number,
-    bittenesrs: number,
-    capacity: number,
-  }[],
-  total: number,
+    id: number;
+    name: string;
+    type: string;
+    alcohol: number;
+    bittenesrs: number;
+    capacity: number;
+  }[];
+  total: number;
 };
 
-type FormData = {
-  name: string,
-  type: string,
-  alcohol: number,
-  bittenesrs: number,
-  capacity: number,
-}
+export type FormData = {
+  name: string;
+  type: string;
+  alcohol: number;
+  bittenesrs: number;
+  capacity: number;
+};
 
 export type InitialStateData = {
-  beerData: BeerData,
-  loading:boolean,
-  error: string,
-  currentTime: string,
-  search: string,
-  sortBy: string,
-  order: string,
-  page: number,
-  limit: number,
-  isModalOpen: boolean,
-  isEditModalType: boolean,
-  formData: FormData,
+  beerData: BeerData;
+  loading: boolean;
+  error: string;
+  currentTime: string;
+  search: string;
+  sortBy: string;
+  order: string;
+  page: number;
+  limit: number;
+  isModalOpen: boolean;
+  isEditModalType: boolean;
+  formData: FormData;
 };
 
 const initialState: InitialStateData = {
   beerData: {
     data: [],
-    total:0
+    total: 0,
   },
   loading: false,
   error: "",
@@ -73,7 +73,7 @@ const initialState: InitialStateData = {
   },
 };
 
-export default function tableReducer(state = initialState, action:any) {
+export default function tableReducer(state = initialState, action: any) {
   switch (action.type) {
     case LOAD_DATA: {
       return {

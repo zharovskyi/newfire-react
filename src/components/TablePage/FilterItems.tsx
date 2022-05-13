@@ -5,7 +5,7 @@ import { OutlinedInput, InputAdornment, Button } from "@mui/material";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { loadDataSearchAction, showModalType } from "./redux/actions";
 import IconifyButtonIcon from "../../shared/IconifyButtonIcon";
-import { currentTimes, searches } from "./selectorTablePage";
+import {  filterItemsSelector } from "./selectorTablePage";
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -16,22 +16,12 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   "&.Mui-focused": { width: 320},
   "& fieldset": {
     borderWidth: "1px !important",
-    // borderColor: `${theme.palette.grey[500_32]} !important`,
   },
 }));
 
 const FilterItems = () => {
-  // const { search, currentTime } = useSelector(
-  //   {
-  //     search,
-  //     currentTime,
-  //   },
-  //   shallowEqual,
-  // );
-  //! Чи можна це оптимізувати
-  const currentTime = useSelector(currentTimes, shallowEqual);
-  const search = useSelector(searches, shallowEqual);
 
+  const { search, currentTime } = useSelector(filterItemsSelector,shallowEqual)
 
   const dispatch = useDispatch();
 

@@ -14,19 +14,20 @@ import {
   showModalType,
 } from "../../components/TablePage/redux/actions";
 import ModalItem from "./ModalItem";
+import {
+  formDataSelector,
+  isEditModalTypeSelector,
+} from "../../components/TablePage/selectorTablePage";
+import { FormData } from "../../components/TablePage/redux/reducers";
 
 const redText = {
   color: "red",
 };
 const ModalContainer = () => {
   const dispatch = useDispatch();
-  const { formData, isEditModalType } = useSelector(
-    ({ tableReducer: { formData, isEditModalType } }) => ({
-      formData,
-      isEditModalType,
-    }),
-    shallowEqual,
-  );
+  const formData = useSelector(formDataSelector, shallowEqual);
+  const isEditModalType = useSelector(isEditModalTypeSelector);
+
   const headlineText = "Please, add the necessary information";
 
   const schema = yup.object().shape({
@@ -45,11 +46,12 @@ const ModalContainer = () => {
     handleSubmit,
     reset,
     formState: { errors, isDirty },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: formData,
     reValidateMode: "onChange",
   });
+
   const onSucessCleanFormCalback = () => {
     reset();
   };
@@ -58,8 +60,7 @@ const ModalContainer = () => {
     dispatch(showModalType());
   };
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
+  const onSubmit = (data: FormData) => {
     if (isEditModalType) {
       return dispatch(sendPutEditorData({ data, onSucessCleanFormCalback }));
     }
@@ -84,20 +85,18 @@ const ModalContainer = () => {
               required
               id="outlined-name"
               label="Name of beer"
-              name="name"
               {...register("name")}
             />
 
             <TextField
               id="outlined-type"
               label="Type of beer"
-              name="type"
               {...register("type")}
             />
             <TextField
               id="outlined-alcohol"
               label="Alcohol"
-              name="alcohol"
+              // name="alcohol"
               {...register("alcohol")}
             />
             <br />
@@ -107,7 +106,6 @@ const ModalContainer = () => {
             <TextField
               id="outlined-bittenesrs"
               label="Bittenesrs"
-              name="bittenesrs"
               {...register("bittenesrs")}
             />
             <br />
@@ -117,7 +115,6 @@ const ModalContainer = () => {
             <TextField
               id="outlined-capacity"
               label="Capacity"
-              name="capacity"
               {...register("capacity")}
             />
             <br />

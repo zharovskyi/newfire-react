@@ -2,11 +2,11 @@
   "rows": [
     {
       "id": 1,
-      "name": "Silver Dollar Porters",
-      "type": "American Lager Strong",
-      "alcohol": 6,
-      "bittenesrs": 20,
-      "capacity": 22
+      "name": "Silver Dollar Porter",
+      "type": "Porter",
+      "alcohol": 45,
+      "bittenesrs": 45,
+      "capacity": 45
     },
     {
       "id": 2,
