@@ -57,6 +57,7 @@ const ModalContainer = () => {
   };
 
   const toggleModal = () => {
+    console.log("2");
     dispatch(showModalType());
   };
 
@@ -66,6 +67,9 @@ const ModalContainer = () => {
     }
     return dispatch(sendPutData({ data, onSucessCleanFormCalback }));
   };
+  // const a: string[] = [{"ds":true}]
+  // genric ts  type =
+  // utility type   sdfsd
   return (
     <>
       <ModalItem onClose={toggleModal}>
