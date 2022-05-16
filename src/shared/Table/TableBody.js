@@ -4,7 +4,6 @@ import TableCell from "@mui/material/TableCell";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
-import ModalContainer from "../Modal/ModalContainer";
 import { editRowType } from "../../components/TablePage/redux/actions";
 
 export default function TableBodyList({ rows }) {
@@ -43,7 +42,6 @@ export default function TableBodyList({ rows }) {
           </TableRow>
         )}
       </TableBody>
-      {isModalOpen && <ModalContainer />}
     </>
   );
 }
