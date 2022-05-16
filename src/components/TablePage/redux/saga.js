@@ -147,7 +147,7 @@ function* workerSagaPutFormData(action) {
     if (action.type === PUT_DATA) {
       const { data, onSucessCleanFormCalback } = action.payload;
       yield call(putFormData, data);
-      yield put(showModalType(false));
+      yield put(showModalType());
       yield call(workerSagaBeerItems);
       if (onSucessCleanFormCalback) {
         onSucessCleanFormCalback();
@@ -158,7 +158,7 @@ function* workerSagaPutFormData(action) {
       const idItem = (state) => state.tableReducer.id;
       const id = yield select(idItem);
       yield call(putEditBeerItem, id, data);
-      yield put(showModalType(false));
+      yield put(showModalType());
       yield call(workerSagaBeerItems);
       if (onSucessCleanFormCalback) {
         onSucessCleanFormCalback();

@@ -9,14 +9,12 @@ const ModalItem = (props: any) => {
   const handleKeyDown = (event: KeyboardEvent): void => {
     if (event.code === "Escape") {
       props.onClose();
-      console.log("event.code ", event.code);
     }
   };
 
   const handleBackdropClick = (event: React.SyntheticEvent) => {
     if (event.currentTarget === event.target) {
       props.onClose();
-      console.log("event.code handleBackdropClick", event.target);
     }
   };
   useEffect(() => {

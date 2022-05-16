@@ -49,8 +49,9 @@ export default function EnhancedTable() {
     EnhancedTableSelector,
     shallowEqual,
   );
-  const total = beerData?.total;
+  const total = +beerData?.total;
   const rows = beerData?.data;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -73,7 +74,7 @@ export default function EnhancedTable() {
               </Table>
             </TableContainer>
 
-            {beerData?.data?.length > 1 && (
+            {beerData?.data?.length  &&(
               <TablePagination
                 rowsPerPageOptions={[2, 4, 6]}
                 component="div"

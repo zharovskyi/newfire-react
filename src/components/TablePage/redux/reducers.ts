@@ -28,10 +28,10 @@ type BeerData = {
 
 export type FormData = {
   name: string;
-  type: string;
-  alcohol: number;
-  bittenesrs: number;
-  capacity: number;
+  type?: string;
+  alcohol?: number;
+  bittenesrs?: number;
+  capacity?: number;
 };
 
 export type InitialStateData = {
@@ -45,7 +45,7 @@ export type InitialStateData = {
   page: number;
   limit: number;
   isModalOpen: boolean;
-  isEditModalType: boolean;
+  isEditModalType: string;
   formData: FormData;
 };
 
@@ -63,7 +63,7 @@ const initialState: InitialStateData = {
   page: 0,
   limit: 2,
   isModalOpen: false,
-  isEditModalType: false,
+  isEditModalType: "",
   formData: {
     name: "",
     type: "",
@@ -147,14 +147,14 @@ export default function tableReducer(state = initialState, action: any) {
       return {
         ...state,
         id: action.payload,
-        isEditModalType: true,
+        isEditModalType: "edit",
       };
     }
     case EDIT_ROW_DATA: {
       return {
         ...state,
         formData: action.payload,
-        isEditModalType: true,
+        isEditModalType: "edit",
       };
     }
 
@@ -162,7 +162,7 @@ export default function tableReducer(state = initialState, action: any) {
       return {
         ...state,
         formData: [],
-        isEditModalType: false,
+        isEditModalType: "",
       };
     }
     default:

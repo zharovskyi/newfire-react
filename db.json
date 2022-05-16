@@ -3,14 +3,14 @@
     {
       "id": 1,
       "name": "Silver Dollar Porter",
-      "type": "Porter",
+      "type": "Porter Large",
       "alcohol": 45,
       "bittenesrs": 45,
       "capacity": 45
     },
     {
       "id": 2,
-      "name": "Young's Special London Aleons",
+      "name": "Young's Special London Aleon",
       "type": "Strong Bitter",
       "alcohol": 5.25,
       "bittenesrs": 30.1,
@@ -47,22 +47,6 @@
       "alcohol": 4.5,
       "bittenesrs": 21.5,
       "capacity": 19
-    },
-    {
-      "capacity": 4,
-      "bittenesrs": 4,
-      "alcohol": 44,
-      "name": "Asasd",
-      "type": "asd",
-      "id": 7
-    },
-    {
-      "capacity": 45,
-      "bittenesrs": 45,
-      "alcohol": 45,
-      "name": "qwewqe",
-      "type": "qweqw",
-      "id": 8
     }
   ]
 }

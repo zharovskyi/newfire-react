@@ -4,10 +4,8 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { useDispatch, useSelector } from "react-redux";
-import ModalContainer from "../Modal/ModalContainer";
+import { useDispatch } from "react-redux";
 import { editRowType } from "../../components/TablePage/redux/actions";
-import { isEditModalTypeSelector } from "../../components/TablePage/selectorTablePage";
 
 type Rows = {
   rows: {
@@ -22,7 +20,6 @@ type Rows = {
 
 const TableBodyList = ({ rows }: Rows) => {
   const dispatch = useDispatch();
-  const isModalOpen = useSelector(isEditModalTypeSelector);
 
   return (
     <>
@@ -55,7 +52,6 @@ const TableBodyList = ({ rows }: Rows) => {
           </TableRow>
         )}
       </TableBody>
-      {isModalOpen && <ModalContainer />}
     </>
   );
 };

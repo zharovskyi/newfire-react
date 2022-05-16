@@ -57,19 +57,16 @@ const ModalContainer = () => {
   };
 
   const toggleModal = () => {
-    console.log("2");
     dispatch(showModalType());
   };
 
   const onSubmit = (data: FormData) => {
-    if (isEditModalType) {
+    if (isEditModalType === "edit") {
       return dispatch(sendPutEditorData({ data, onSucessCleanFormCalback }));
     }
     return dispatch(sendPutData({ data, onSucessCleanFormCalback }));
   };
-  // const a: string[] = [{"ds":true}]
-  // genric ts  type =
-  // utility type   sdfsd
+
   return (
     <>
       <ModalItem onClose={toggleModal}>
@@ -100,7 +97,6 @@ const ModalContainer = () => {
             <TextField
               id="outlined-alcohol"
               label="Alcohol"
-              // name="alcohol"
               {...register("alcohol")}
             />
             <br />
