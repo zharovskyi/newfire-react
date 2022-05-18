@@ -133,7 +133,7 @@ export default function tableReducer(state = initialState, action: any) {
     case PUT_DATA: {
       return {
         ...state,
-        formData: [],
+        formData: {},
         page: 0,
       };
     }

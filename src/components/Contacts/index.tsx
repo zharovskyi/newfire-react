@@ -1,6 +1,7 @@
 import React from "react";
 
-const title  = "Contact"
+const title = "Contact";
+
 function Contacts() {
   return (
     <>
