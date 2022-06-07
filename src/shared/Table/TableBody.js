@@ -3,12 +3,11 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { editRowType } from "../../components/TablePage/redux/actions";
 
 export default function TableBodyList({ rows }) {
   const dispatch = useDispatch();
-  const isModalOpen = useSelector((state) => state.tableReducer.isModalOpen);
 
   return (
     <>
