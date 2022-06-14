@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -16,56 +16,31 @@ import {
   Select,
 } from "@mui/material";
 import data from "./data.json";
+import { Controller, useController, useForm } from "react-hook-form";
 
 const SignUp = () => {
-  const [country, setCountry] = useState("");
-  const [division, setDivision] = useState("");
-  const [city, setCity] = useState("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      showCounty: false,
+    },
+  });
 
-  const [optionsDivision, setOptionsDivisions] = useState([]);
+  const watchShowCounty = watch("showCounty", false);
 
-  const [hideCountry, setHideCountry] = useState(false);
-
-  const handleClick = () => {
-    setHideCountry((prev) => !prev);
+  const onSubmit = (data) => {
+    console.log("data", data);
   };
-
-  const handleChange = (event) => {
-    setDivision("");
-    setCity("");
-    setCountry(event.target.value);
-    setOptionsDivisions(() =>
-      data.filter((item) => item.country === event.target.value),
-    );
-  };
-
-  const handleChangeDivision = (event) => {
-    setDivision(event.target.value);
-  };
-
-  const handleChangeCity = (event) => {
-    setCity(event.target.value);
-  };
-
-  const memoizedDivision = useMemo(() => handleChangeDivision, [division]);
-  const memoizedCity = useMemo(() => handleChangeCity, [city]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      country: data.get("country"),
-      devision: data.get("devision"),
-      city: data.get("city"),
-    });
-
-    setDivision("");
-    setCity("");
-    setCountry("");
-  };
+  // const { field: showCounty } = useController({ name: "showCounty" });
+  // console.log("defaultValues.showCounty :>> ", showCounty);
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -82,7 +57,7 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Get in touch
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -92,6 +67,7 @@ const SignUp = () => {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                {...register("firstName")}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -102,6 +78,7 @@ const SignUp = () => {
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
+                {...register("lastName")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -112,17 +89,30 @@ const SignUp = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                {...register("email")}
               />
             </Grid>
 
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Controller
+                    control={control}
+                    name="showCounty"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Checkbox
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        checked={value}
+                      />
+                    )}
+                  />
+                }
                 label="Show country location"
-                onClick={handleClick}
+                // onClick={handleClick}
               />
             </Grid>
-            {hideCountry && (
+            {watchShowCounty && (
               <>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
@@ -132,10 +122,10 @@ const SignUp = () => {
                     <Select
                       labelId="demo-simple-select-helper-label"
                       id="demo-simple-select-helper"
-                      value={country}
+                      // value={country}
                       label="Country"
                       name="country"
-                      onChange={handleChange}
+                      // onChange={handleChange}
                     >
                       {data.map((item) => (
                         <MenuItem key={item.id} value={item.country}>
@@ -152,17 +142,17 @@ const SignUp = () => {
                     </InputLabel>
                     <Select
                       id="demo-simple-select-devision-label"
-                      value={division}
+                      // value={division}
                       label="Divisions"
                       name="devision"
-                      onChange={memoizedDivision}
+                      // onChange={memoizedDivision}
                     >
-                      {optionsDivision.length > 0 &&
+                      {/* {optionsDivision.length > 0 &&
                         optionsDivision.map((item) => (
                           <MenuItem key={item.id} value={item.divisions.state}>
                             {item.divisions.state}
                           </MenuItem>
-                        ))}
+                        ))} */}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -173,19 +163,19 @@ const SignUp = () => {
                     </InputLabel>
                     <Select
                       id="demo-simple-select-city-label"
-                      value={city}
-                      onChange={memoizedCity}
+                      // value={city}
+                      // onChange={memoizedCity}
                       label="City"
                       name="city"
                     >
-                      {optionsDivision.length > 0 &&
+                      {/* {optionsDivision.length > 0 &&
                         optionsDivision.map((item) =>
                           item?.divisions.city.map((cities) => (
                             <MenuItem key={cities} value={cities}>
                               {cities}
                             </MenuItem>
                           )),
-                        )}
+                        )} */}
                     </Select>
                   </FormControl>
                 </Grid>
