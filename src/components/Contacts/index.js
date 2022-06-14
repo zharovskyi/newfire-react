@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,73 +8,66 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {
+  Checkbox,
   FormControl,
-  FormHelperText,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
 } from "@mui/material";
-
-const data = [
-  {
-    id: 1,
-    name: "Silver Dollar Porters",
-    type: "American Lager Strong",
-    alcohol: 6,
-    bittenesrs: 20,
-    capacity: 21,
-    country: "USA",
-    divisions: {
-      state: "California",
-      city: ["New-York", "Los Angeles"],
-    },
-  },
-  {
-    id: 2,
-    name: "Young's Special London Aleons",
-    type: "Strong Bitter",
-    alcohol: 6.25,
-    bittenesrs: 30.1,
-    capacity: 20.5,
-    country: "UKR",
-    divisions: {
-      state: "Lviv",
-      city: ["Drogobuch", "Sambir", "Strui"],
-    },
-  },
-  {
-    id: 3,
-    name: "From Lviv",
-    type: "Dark Lager",
-    alcohol: 9.1,
-    bittenesrs: 20.9,
-    capacity: 20,
-    country: "DEU",
-    divisions: {
-      state: "Bavaria",
-      city: ["Ausburg", "Munich", "Würzburg"],
-    },
-  },
-];
+import data from "./data.json";
 
 const SignUp = () => {
+  const [country, setCountry] = useState("");
+  const [division, setDivision] = useState("");
+  const [city, setCity] = useState("");
+
+  const [optionsDivision, setOptionsDivisions] = useState([]);
+
+  const [hideCountry, setHideCountry] = useState(false);
+
+  const handleClick = () => {
+    setHideCountry((prev) => !prev);
+  };
+
+  const handleChange = (event) => {
+    setDivision("");
+    setCity("");
+    setCountry(event.target.value);
+    setOptionsDivisions(() =>
+      data.filter((item) => item.country === event.target.value),
+    );
+  };
+
+  const handleChangeDivision = (event) => {
+    setDivision(event.target.value);
+  };
+
+  const handleChangeCity = (event) => {
+    setCity(event.target.value);
+  };
+
+  const memoizedDivision = useMemo(() => handleChangeDivision, [division]);
+  const memoizedCity = useMemo(() => handleChangeCity, [city]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
       email: data.get("email"),
-      password: data.get("password"),
+      country: data.get("country"),
+      devision: data.get("devision"),
+      city: data.get("city"),
     });
-  };
-  const [age, setAge] = useState("");
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+    setDivision("");
+    setCity("");
+    setCountry("");
   };
   return (
-    // <ThemeProvider>
     <Container component="main" maxWidth="md">
-      {/* <CssBaseline /> */}
       <Box
         sx={{
           marginTop: 8,
@@ -121,67 +114,83 @@ const SignUp = () => {
                 autoComplete="email"
               />
             </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-helper-label">
-                  Country
-                </InputLabel>
-                <Select
-                  fullWidth
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={age}
-                  label="Country"
-                  onChange={handleChange}
-                >
-                  <MenuItem value="" selected disabled>
-                    <em>Country</em>
-                  </MenuItem>
-                  {data.map((item) => (
-                    <MenuItem key={item.id} value={item.country}>
-                      {item.country}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>With label + helper text</FormHelperText>
-              </FormControl>
+
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Show country location"
+                onClick={handleClick}
+              />
             </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <Select
-                  value={age}
-                  onChange={handleChange}
-                  displayEmpty
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-                <FormHelperText>Without label</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <Select
-                  value={age}
-                  onChange={handleChange}
-                  displayEmpty
-                  // inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-                <FormHelperText>Without label</FormHelperText>
-              </FormControl>
-            </Grid>
+            {hideCountry && (
+              <>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-helper-label">
+                      Country
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-helper-label"
+                      id="demo-simple-select-helper"
+                      value={country}
+                      label="Country"
+                      name="country"
+                      onChange={handleChange}
+                    >
+                      {data.map((item) => (
+                        <MenuItem key={item.id} value={item.country}>
+                          {item.country}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-devision-label">
+                      Devision
+                    </InputLabel>
+                    <Select
+                      id="demo-simple-select-devision-label"
+                      value={division}
+                      label="Divisions"
+                      name="devision"
+                      onChange={memoizedDivision}
+                    >
+                      {optionsDivision.length > 0 &&
+                        optionsDivision.map((item) => (
+                          <MenuItem key={item.id} value={item.divisions.state}>
+                            {item.divisions.state}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-city-label">
+                      City
+                    </InputLabel>
+                    <Select
+                      id="demo-simple-select-city-label"
+                      value={city}
+                      onChange={memoizedCity}
+                      label="City"
+                      name="city"
+                    >
+                      {optionsDivision.length > 0 &&
+                        optionsDivision.map((item) =>
+                          item?.divisions.city.map((cities) => (
+                            <MenuItem key={cities} value={cities}>
+                              {cities}
+                            </MenuItem>
+                          )),
+                        )}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </>
+            )}
           </Grid>
           <Button
             type="submit"
@@ -191,17 +200,9 @@ const SignUp = () => {
           >
             Get in touch
           </Button>
-          {/* <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid> */}
         </Box>
       </Box>
     </Container>
-    // </ThemeProvider>
   );
 };
 export default SignUp;
