@@ -42,7 +42,7 @@ const headCells = [
     label: "Edit",
   },
 ];
-export default function EnhancedTable() {
+const EnhancedTable = () => {
   const { loading, beerData, limit, page } = useSelector(
     ({ tableReducer: { loading, beerData, limit, page } }) => ({
       loading,
@@ -96,4 +96,6 @@ export default function EnhancedTable() {
       </Paper>
     </Box>
   );
-}
+};
+
+export default EnhancedTable;

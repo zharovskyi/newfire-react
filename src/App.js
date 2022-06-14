@@ -29,10 +29,10 @@ function App() {
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/about">About Us</Link>
+                  <Link to="/contacts">Contacts</Link>
                 </li>
                 <li>
-                  <Link to="/contacts">Contacts</Link>
+                  <Link to="/about">About Us</Link>
                 </li>
                 <li>
                   <Button variant="contained">Log in</Button>

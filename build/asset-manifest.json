@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/newfire-react/build/static/css/main.c81f9670.css",
-    "main.js": "/newfire-react/build/static/js/main.6a5171dd.js",
+    "main.js": "/newfire-react/build/static/js/main.3dc6ae51.js",
     "static/media/amstel-beer-1.svg": "/newfire-react/build/static/media/amstel-beer-1.6abc1602746bb9a0390325ffa713f906.svg",
     "index.html": "/newfire-react/build/index.html"
   },
   "entrypoints": [
     "static/css/main.c81f9670.css",
-    "static/js/main.6a5171dd.js"
+    "static/js/main.3dc6ae51.js"
   ]
 }
