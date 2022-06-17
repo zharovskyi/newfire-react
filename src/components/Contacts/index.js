@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -16,31 +16,40 @@ import {
   Select,
 } from "@mui/material";
 import data from "./data.json";
-import { Controller, useController, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
     watch,
-    control,
-    formState: { errors },
+    control
   } = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       showCounty: false,
+      country: "",
+      devision: "",
+      city: "",
     },
   });
+ 
+  const [optionsDivision, setOptionsDivisions] = useState([]);
+
+  const handleChange = (event) => {
+    setOptionsDivisions(() =>
+      data.filter((item) => item.country === event.target.value),
+    );
+  };
 
   const watchShowCounty = watch("showCounty", false);
 
   const onSubmit = (data) => {
     console.log("data", data);
   };
-  // const { field: showCounty } = useController({ name: "showCounty" });
-  // console.log("defaultValues.showCounty :>> ", showCounty);
+
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -109,7 +118,6 @@ const SignUp = () => {
                   />
                 }
                 label="Show country location"
-                // onClick={handleClick}
               />
             </Grid>
             {watchShowCounty && (
@@ -122,10 +130,10 @@ const SignUp = () => {
                     <Select
                       labelId="demo-simple-select-helper-label"
                       id="demo-simple-select-helper"
-                      // value={country}
                       label="Country"
                       name="country"
-                      // onChange={handleChange}
+                      {...register("country")}
+                      onChange={handleChange}
                     >
                       {data.map((item) => (
                         <MenuItem key={item.id} value={item.country}>
@@ -142,17 +150,16 @@ const SignUp = () => {
                     </InputLabel>
                     <Select
                       id="demo-simple-select-devision-label"
-                      // value={division}
                       label="Divisions"
                       name="devision"
-                      // onChange={memoizedDivision}
+                      {...register("devision")}
                     >
-                      {/* {optionsDivision.length > 0 &&
+                      {optionsDivision.length > 0 &&
                         optionsDivision.map((item) => (
                           <MenuItem key={item.id} value={item.divisions.state}>
                             {item.divisions.state}
                           </MenuItem>
-                        ))} */}
+                        ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -163,19 +170,18 @@ const SignUp = () => {
                     </InputLabel>
                     <Select
                       id="demo-simple-select-city-label"
-                      // value={city}
-                      // onChange={memoizedCity}
                       label="City"
                       name="city"
+                      {...register("city")}
                     >
-                      {/* {optionsDivision.length > 0 &&
+                      {optionsDivision.length > 0 &&
                         optionsDivision.map((item) =>
                           item?.divisions.city.map((cities) => (
                             <MenuItem key={cities} value={cities}>
                               {cities}
                             </MenuItem>
                           )),
-                        )} */}
+                        )}
                     </Select>
                   </FormControl>
                 </Grid>
