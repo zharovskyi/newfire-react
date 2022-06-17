@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -16,56 +16,40 @@ import {
   Select,
 } from "@mui/material";
 import data from "./data.json";
+import { Controller, useForm } from "react-hook-form";
 
 const SignUp = () => {
-  const [country, setCountry] = useState("");
-  const [division, setDivision] = useState("");
-  const [city, setCity] = useState("");
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      showCounty: false,
+      country: "",
+      devision: "",
+      city: "",
+    },
+  });
+ 
   const [optionsDivision, setOptionsDivisions] = useState([]);
 
-  const [hideCountry, setHideCountry] = useState(false);
-
-  const handleClick = () => {
-    setHideCountry((prev) => !prev);
-  };
-
   const handleChange = (event) => {
-    setDivision("");
-    setCity("");
-    setCountry(event.target.value);
     setOptionsDivisions(() =>
       data.filter((item) => item.country === event.target.value),
     );
   };
 
-  const handleChangeDivision = (event) => {
-    setDivision(event.target.value);
+  const watchShowCounty = watch("showCounty", false);
+
+  const onSubmit = (data) => {
+    console.log("data", data);
   };
 
-  const handleChangeCity = (event) => {
-    setCity(event.target.value);
-  };
-
-  const memoizedDivision = useMemo(() => handleChangeDivision, [division]);
-  const memoizedCity = useMemo(() => handleChangeCity, [city]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      country: data.get("country"),
-      devision: data.get("devision"),
-      city: data.get("city"),
-    });
-
-    setDivision("");
-    setCity("");
-    setCountry("");
-  };
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -82,7 +66,7 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Get in touch
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -92,6 +76,7 @@ const SignUp = () => {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                {...register("firstName")}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -102,6 +87,7 @@ const SignUp = () => {
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
+                {...register("lastName")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -112,17 +98,29 @@ const SignUp = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                {...register("email")}
               />
             </Grid>
 
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Controller
+                    control={control}
+                    name="showCounty"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Checkbox
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        checked={value}
+                      />
+                    )}
+                  />
+                }
                 label="Show country location"
-                onClick={handleClick}
               />
             </Grid>
-            {hideCountry && (
+            {watchShowCounty && (
               <>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
@@ -132,9 +130,9 @@ const SignUp = () => {
                     <Select
                       labelId="demo-simple-select-helper-label"
                       id="demo-simple-select-helper"
-                      value={country}
                       label="Country"
                       name="country"
+                      {...register("country")}
                       onChange={handleChange}
                     >
                       {data.map((item) => (
@@ -152,10 +150,9 @@ const SignUp = () => {
                     </InputLabel>
                     <Select
                       id="demo-simple-select-devision-label"
-                      value={division}
                       label="Divisions"
                       name="devision"
-                      onChange={memoizedDivision}
+                      {...register("devision")}
                     >
                       {optionsDivision.length > 0 &&
                         optionsDivision.map((item) => (
@@ -173,10 +170,9 @@ const SignUp = () => {
                     </InputLabel>
                     <Select
                       id="demo-simple-select-city-label"
-                      value={city}
-                      onChange={memoizedCity}
                       label="City"
                       name="city"
+                      {...register("city")}
                     >
                       {optionsDivision.length > 0 &&
                         optionsDivision.map((item) =>
