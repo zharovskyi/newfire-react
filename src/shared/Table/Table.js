@@ -55,7 +55,6 @@ const EnhancedTable = () => {
   const total = +beerData?.total;
   const rows = beerData?.data;
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(loadDataAction());
     return () => {
