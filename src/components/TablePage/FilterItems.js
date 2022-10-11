@@ -60,7 +60,7 @@ const FilterItems = () => {
           startIcon={<IconifyButtonIcon icon="eva:plus-fill" />}
           onClick={toggleModal}
         >
-          Add new recipe
+          Add new recipes
         </Button>
       </div>
     </>
